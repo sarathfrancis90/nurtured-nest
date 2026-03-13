@@ -2,5 +2,8 @@
 node_modules
 .env.local
 .env
+.dev.vars
+.open-next
+.wrangler
 .DS_Store
 *.log
