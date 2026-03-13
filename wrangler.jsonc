@@ -22,5 +22,15 @@
   ],
   "images": {
     "binding": "IMAGES"
-  }
+  },
+  "routes": [
+    {
+      "pattern": "sarathfrancis.work/*",
+      "zone_name": "sarathfrancis.work"
+    },
+    {
+      "pattern": "www.sarathfrancis.work/*",
+      "zone_name": "sarathfrancis.work"
+    }
+  ]
 }

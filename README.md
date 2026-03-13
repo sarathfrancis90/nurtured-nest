@@ -57,8 +57,12 @@ Production-ready Next.js website and admin app for Nurtured Nest (Varshitha, Pro
    - `npx wrangler r2 bucket create nurtured-nest-opennext-cache`
 6. Deploy:
    - `npm run deploy:cloudflare`
-7. In Cloudflare dashboard, add the custom domain route:
-   - suggested: `nurturednest.aventiq.work`
+7. Domain routes are configured in [`wrangler.jsonc`](wrangler.jsonc):
+   - `sarathfrancis.work/*`
+   - `www.sarathfrancis.work/*`
+8. Ensure DNS in Cloudflare for zone `sarathfrancis.work`:
+   - proxied `A` record for `@` (any placeholder IP is fine, e.g. `192.0.2.1`)
+   - proxied `CNAME` record for `www` -> `sarathfrancis.work`
 
 ## GitHub setup
 1. Initialize this folder as its own git repo:
@@ -67,6 +71,17 @@ Production-ready Next.js website and admin app for Nurtured Nest (Varshitha, Pro
    - `git add . && git commit -m \"Initial Nurtured Nest web app\"`
 3. Create remote repo and push:
    - `gh repo create nurtured-nest --private --source=. --push`
+4. Configure repository secrets for CI/CD deploy:
+   - `CLOUDFLARE_API_TOKEN` (Workers Scripts:Edit, Workers Routes:Edit, Zone:Read, DNS:Edit)
+   - `CLOUDFLARE_ACCOUNT_ID`
+5. Optional runtime secrets (if you want full production functionality, not fallback content):
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `RESEND_API_KEY`
+   - `NOTIFICATION_EMAIL`
+   - `NOTIFICATION_FROM_EMAIL`
+   - `TURNSTILE_SECRET_KEY`
+   - `NEXT_PUBLIC_TURNSTILE_SITE_KEY`
 
 ## Notes
 - If Supabase env vars are missing, website falls back to bundled default flyer content and admin actions are disabled.
