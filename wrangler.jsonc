@@ -14,22 +14,10 @@
       "service": "nurtured-nest"
     }
   ],
-  "r2_buckets": [
-    {
-      "binding": "NEXT_INC_CACHE_R2_BUCKET",
-      "bucket_name": "nurtured-nest-opennext-cache"
-    }
-  ],
-  "images": {
-    "binding": "IMAGES"
-  },
+  "workers_dev": true,
   "routes": [
     {
-      "pattern": "sarathfrancis.work/*",
-      "zone_name": "sarathfrancis.work"
-    },
-    {
-      "pattern": "www.sarathfrancis.work/*",
+      "pattern": "nurturednest.sarathfrancis.work/*",
       "zone_name": "sarathfrancis.work"
     }
   ]

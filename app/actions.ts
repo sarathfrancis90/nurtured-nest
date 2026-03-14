@@ -27,7 +27,7 @@ const leadSchema = z.object({
 async function notifyLeadByEmail(payload: Record<string, string | string[]>) {
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.NOTIFICATION_EMAIL;
-  const from = process.env.NOTIFICATION_FROM_EMAIL ?? "noreply@nurturednest.aventiq.work";
+  const from = process.env.NOTIFICATION_FROM_EMAIL ?? "noreply@sarathfrancis.work";
 
   if (!apiKey || !to) {
     return;

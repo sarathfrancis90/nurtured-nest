@@ -2,6 +2,10 @@
 
 Production-ready Next.js website and admin app for Nurtured Nest (Varshitha, Professional Birth Doula), designed to run on free-tier infrastructure.
 
+## Live URLs
+- **Primary:** https://nurtured-nest.sarathfrancis.workers.dev
+- **Custom domain:** https://nurturednest.sarathfrancis.work (requires DNS setup)
+
 ## Flyer-accurate source data
 - Business: Nurtured Nest
 - Name: Varshitha
@@ -16,7 +20,7 @@ Production-ready Next.js website and admin app for Nurtured Nest (Varshitha, Pro
 ## Stack
 - Next.js (App Router, TypeScript)
 - Supabase (database, auth, storage)
-- Cloudflare Pages/Workers (deployment)
+- Cloudflare Workers (deployment via OpenNext)
 - Cloudflare Turnstile (anti-spam)
 - Resend (notification emails)
 
@@ -53,30 +57,21 @@ Production-ready Next.js website and admin app for Nurtured Nest (Varshitha, Pro
    - `npm run build:cloudflare`
 4. Preview Cloudflare runtime locally:
    - `npm run preview:cloudflare`
-5. Create cache bucket once:
-   - `npx wrangler r2 bucket create nurtured-nest-opennext-cache`
-6. Deploy:
+5. Deploy:
    - `npm run deploy:cloudflare`
-7. Domain routes are configured in [`wrangler.jsonc`](wrangler.jsonc):
-   - `sarathfrancis.work/*`
-   - `www.sarathfrancis.work/*`
-8. Ensure DNS in Cloudflare for zone `sarathfrancis.work`:
-   - proxied `A` record for `@` (any placeholder IP is fine, e.g. `192.0.2.1`)
-   - proxied `CNAME` record for `www` -> `sarathfrancis.work`
+6. Domain routes are configured in [`wrangler.jsonc`](wrangler.jsonc):
+   - `nurturednest.sarathfrancis.work/*`
+7. DNS setup in Cloudflare for zone `sarathfrancis.work`:
+   - proxied `AAAA` record for `nurturednest` → `100::` (placeholder for Workers route)
 
 ## GitHub setup
-1. Initialize this folder as its own git repo:
-   - `git init`
-2. Commit:
-   - `git add . && git commit -m \"Initial Nurtured Nest web app\"`
-3. Create remote repo and push:
-   - `gh repo create nurtured-nest --private --source=. --push`
-4. Configure repository secrets for CI/CD deploy:
-   - `CLOUDFLARE_API_TOKEN` (Workers Scripts:Edit, Workers Routes:Edit, Zone:Read, DNS:Edit)
+1. Configure repository secrets for CI/CD deploy:
+   - `CLOUDFLARE_API_TOKEN`
    - `CLOUDFLARE_ACCOUNT_ID`
-5. Optional runtime secrets (if you want full production functionality, not fallback content):
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `NEXT_PUBLIC_SITE_URL`
+2. Optional runtime secrets (for full production functionality):
    - `RESEND_API_KEY`
    - `NOTIFICATION_EMAIL`
    - `NOTIFICATION_FROM_EMAIL`

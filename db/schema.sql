@@ -95,23 +95,23 @@ alter table public.leads enable row level security;
 alter table public.cta_events enable row level security;
 
 -- Public read policies for website content
-create policy if not exists "Public read site settings" on public.site_settings for select using (true);
-create policy if not exists "Public read services" on public.service_items for select using (true);
-create policy if not exists "Public read faqs" on public.faqs for select using (true);
-create policy if not exists "Public read testimonials" on public.testimonials for select using (true);
-create policy if not exists "Public read resources" on public.resources_posts for select using (published = true);
+create policy "Public read site settings" on public.site_settings for select using (true);
+create policy "Public read services" on public.service_items for select using (true);
+create policy "Public read faqs" on public.faqs for select using (true);
+create policy "Public read testimonials" on public.testimonials for select using (true);
+create policy "Public read resources" on public.resources_posts for select using (published = true);
 
 -- Public insert policy for lead form
-create policy if not exists "Public can insert leads" on public.leads for insert with check (true);
+create policy "Public can insert leads" on public.leads for insert with check (true);
 
 -- Authenticated admin full access policies
-create policy if not exists "Admin full site settings" on public.site_settings for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
-create policy if not exists "Admin full services" on public.service_items for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
-create policy if not exists "Admin full faqs" on public.faqs for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
-create policy if not exists "Admin full testimonials" on public.testimonials for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
-create policy if not exists "Admin full resources" on public.resources_posts for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
-create policy if not exists "Admin full leads" on public.leads for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
-create policy if not exists "Admin full events" on public.cta_events for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+create policy "Admin full site settings" on public.site_settings for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+create policy "Admin full services" on public.service_items for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+create policy "Admin full faqs" on public.faqs for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+create policy "Admin full testimonials" on public.testimonials for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+create policy "Admin full resources" on public.resources_posts for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+create policy "Admin full leads" on public.leads for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+create policy "Admin full events" on public.cta_events for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
 
 -- Seed starter data from flyer
 insert into public.site_settings (
