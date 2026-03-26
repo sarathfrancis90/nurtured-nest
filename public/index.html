@@ -59,15 +59,15 @@
     <!-- Desktop Top Nav -->
     <nav id="desktop-nav" aria-label="Main navigation"
          class="glass-nav fixed top-0 left-0 right-0 z-50 shadow-sm">
-      <div class="max-w-7xl mx-auto px-12 py-0 flex justify-between items-center">
+      <div class="max-w-7xl mx-auto px-4 md:px-12 py-0 flex justify-between items-center">
 
         <!-- Logo + Brand Name -->
-        <a href="#home" class="flex items-center gap-3" aria-label="Nurtured Nest — home">
+        <a href="#home" class="flex items-center gap-2 md:gap-3" aria-label="Nurtured Nest — home">
           <img src="/icons/logo.svg"
                alt=""
                width="140" height="140"
-               class="w-[140px] h-[140px] object-contain -my-4">
-          <span class="font-brand text-4xl text-on-surface">Nurtured Nest</span>
+               class="w-16 h-16 md:w-[140px] md:h-[140px] object-contain md:-my-4">
+          <span class="font-brand text-2xl md:text-4xl text-on-surface">Nurtured Nest</span>
         </a>
 
         <!-- Nav Links (hidden on mobile) -->
@@ -94,9 +94,9 @@
           </li>
         </ul>
 
-        <!-- Desktop CTA -->
+        <!-- Desktop CTA (hidden on mobile — mobile has bottom nav Book button) -->
         <a href="#contact"
-           class="cta-shimmer text-on-primary font-label text-sm font-semibold px-8 py-3 rounded-full ambient-shadow hover:scale-[1.02] transition-transform">
+           class="hidden md:inline-block cta-shimmer text-on-primary font-label text-sm font-semibold px-8 py-3 rounded-full ambient-shadow hover:scale-[1.02] transition-transform">
           Book a Call
         </a>
 
@@ -378,8 +378,8 @@
               Meet Your Guide
             </p>
 
-            <h2 class="font-headline text-5xl lg:text-6xl leading-tight text-on-surface mb-8">
-              Varshitha &mdash;<br>
+            <h2 class="font-headline text-3xl md:text-5xl lg:text-6xl leading-tight text-on-surface mb-8">
+              <span class="whitespace-nowrap">Varshitha &mdash;</span><br>
               <em class="italic text-primary">The Heart of Nest</em>
             </h2>
 
@@ -483,9 +483,9 @@
   <footer role="contentinfo" aria-label="Site footer"
           class="bg-surface-container-highest border-t border-outline-variant/5 relative overflow-hidden">
 
-    <!-- Botanical leaf decoration — bottom right -->
+    <!-- Botanical leaf decoration — bottom right (hidden on mobile to avoid white edge) -->
     <img src="/images/leaf-deco.png" alt="" aria-hidden="true"
-         class="leaf-deco bottom-0 right-0 w-32 lg:w-48 opacity-15 mix-blend-multiply" loading="lazy"
+         class="leaf-deco bottom-0 right-0 w-32 lg:w-48 opacity-15 mix-blend-multiply hidden md:block" loading="lazy"
          style="transform: scaleX(-1) scaleY(-1);">
 
     <div class="max-w-7xl mx-auto px-6 lg:px-12 py-16 relative z-10">
