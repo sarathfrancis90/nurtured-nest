@@ -129,10 +129,10 @@ button:focus-visible {
 
 /* ─── Glassmorphism: Mobile Bottom Nav (Apple Liquid Glass) ──────────────── */
 .liquid-glass-nav {
-  background: rgba(255, 251, 255, 0.60);
-  -webkit-backdrop-filter: blur(24px);
-  border-top: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 -4px 24px -4px rgba(57, 56, 49, 0.05);
+  background: rgba(240, 248, 252, 0.55);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-top: 1px solid rgba(62, 106, 126, 0.08);
+  box-shadow: 0 -8px 32px -4px rgba(62, 106, 126, 0.08);
 }
 
 /* ─── backdrop-filter: @supports wrapper prevents Lightning CSS stripping ── */
@@ -140,7 +140,7 @@ button:focus-visible {
 /* leaving only -webkit-backdrop-filter, which breaks Firefox.                */
 @supports (backdrop-filter: blur(1px)) {
   .glass-nav     { backdrop-filter: blur(16px); }
-  .liquid-glass-nav { backdrop-filter: blur(24px); }
+  .liquid-glass-nav { backdrop-filter: blur(24px) saturate(180%); }
 }
 
 /* ─── Scroll-Triggered Section Reveal Animation ──────────────────────────── */
