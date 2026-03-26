@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nurtured Nest — Where Birth Feels Safe</title>
+  <meta name="description" content="A curated sanctuary for the modern birth journey. Professional birth doula services by Varshitha, based in Toronto, Canada.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Nurtured Nest — Where Birth Feels Safe">
+  <meta property="og:description" content="A curated sanctuary for the modern birth journey. Professional birth doula by Varshitha, Toronto Canada.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="/icons/og-image.png">
+
+  <!-- Favicon & App Icons -->
+  <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#3e6a7e">
+
+  <!-- Google Fonts: Noto Serif + Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Material Symbols Outlined -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap">
+
+  <!-- Compiled Tailwind CSS -->
+  <link rel="stylesheet" href="/css/styles.css">
+
+  <!-- Plausible Analytics (cookie-free, no consent banner needed) -->
+  <script defer data-domain="nurturednest.co" src="https://plausible.io/js/script.js"></script>
+</head>
+
+<body class="bg-surface text-on-surface font-label antialiased pb-20 md:pb-0">
+
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- Cursor Warm Glow (desktop only, added via JS) -->
+  <div class="cursor-glow hidden lg:block" id="cursor-glow" aria-hidden="true"></div>
+
+  <!-- Skip to content (WCAG 2.1 AA) -->
+  <a href="#main-content"
+     class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:bg-primary focus:text-on-primary focus:px-4 focus:py-2 focus:rounded-full focus:font-label focus:text-sm focus:font-semibold">
+    Skip to content
+  </a>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       NAVIGATION
+       Desktop: fixed glassmorphic top bar
+       Mobile: floating liquid-glass bottom bar (md:hidden)
+  ════════════════════════════════════════════════════════════════════════ -->
+  <header role="banner">
+
+    <!-- Desktop Top Nav -->
+    <nav id="desktop-nav" aria-label="Main navigation"
+         class="glass-nav fixed top-0 left-0 right-0 z-50 shadow-sm">
+      <div class="max-w-7xl mx-auto px-12 py-0 flex justify-between items-center">
+
+        <!-- Logo + Brand Name -->
+        <a href="#home" class="flex items-center gap-3" aria-label="Nurtured Nest — home">
+          <img src="/icons/logo.svg"
+               alt=""
+               width="140" height="140"
+               class="w-[140px] h-[140px] object-contain -my-4">
+          <span class="font-brand text-4xl text-on-surface">Nurtured Nest</span>
+        </a>
+
+        <!-- Nav Links (hidden on mobile) -->
+        <ul class="hidden md:flex items-center space-x-10" role="list">
+          <li>
+            <a href="#home"
+               class="nav-link font-label text-sm font-medium tracking-wide text-on-surface-variant hover:text-primary transition-colors"
+               data-section="home">Home</a>
+          </li>
+          <li>
+            <a href="#services"
+               class="nav-link font-label text-sm font-medium tracking-wide text-on-surface-variant hover:text-primary transition-colors"
+               data-section="services">Services</a>
+          </li>
+          <li>
+            <a href="#about"
+               class="nav-link font-label text-sm font-medium tracking-wide text-on-surface-variant hover:text-primary transition-colors"
+               data-section="about">About</a>
+          </li>
+          <li>
+            <a href="#contact"
+               class="nav-link font-label text-sm font-medium tracking-wide text-on-surface-variant hover:text-primary transition-colors"
+               data-section="contact">Contact</a>
+          </li>
+        </ul>
+
+        <!-- Desktop CTA -->
+        <a href="#contact"
+           class="cta-shimmer text-on-primary font-label text-sm font-semibold px-8 py-3 rounded-full ambient-shadow hover:scale-[1.02] transition-transform">
+          Book a Call
+        </a>
+
+      </div>
+    </nav>
+
+    <!-- Mobile Bottom Nav (hidden at md+) -->
+    <nav id="mobile-nav" aria-label="Mobile navigation"
+         class="liquid-glass-nav fixed bottom-0 left-0 right-0 z-50 h-16 flex items-center justify-around px-2 md:hidden"
+         style="padding-bottom: env(safe-area-inset-bottom)">
+
+      <!-- Home -->
+      <a href="#home"
+         class="mobile-nav-item flex flex-col items-center justify-center gap-0.5 text-on-surface-variant active:scale-95 transition-transform duration-100"
+         data-section="home">
+        <span class="material-symbols-outlined text-xl" aria-hidden="true">home</span>
+        <span class="font-label text-[10px] font-medium tracking-wide">Home</span>
+      </a>
+
+      <!-- Services -->
+      <a href="#services"
+         class="mobile-nav-item flex flex-col items-center justify-center gap-0.5 text-on-surface-variant active:scale-95 transition-transform duration-100"
+         data-section="services">
+        <span class="material-symbols-outlined text-xl" aria-hidden="true">self_improvement</span>
+        <span class="font-label text-[10px] font-medium tracking-wide">Services</span>
+      </a>
+
+      <!-- About -->
+      <a href="#about"
+         class="mobile-nav-item flex flex-col items-center justify-center gap-0.5 text-on-surface-variant active:scale-95 transition-transform duration-100"
+         data-section="about">
+        <span class="material-symbols-outlined text-xl" aria-hidden="true">person</span>
+        <span class="font-label text-[10px] font-medium tracking-wide">About</span>
+      </a>
+
+      <!-- Contact -->
+      <a href="#contact"
+         class="mobile-nav-item flex flex-col items-center justify-center gap-0.5 text-on-surface-variant active:scale-95 transition-transform duration-100"
+         data-section="contact">
+        <span class="material-symbols-outlined text-xl" aria-hidden="true">mail</span>
+        <span class="font-label text-[10px] font-medium tracking-wide">Contact</span>
+      </a>
+
+      <!-- Book CTA -->
+      <a href="#contact"
+         class="signature-gradient text-on-primary font-label text-xs font-bold px-5 py-2 rounded-full">
+        Book
+      </a>
+
+    </nav>
+
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       MAIN CONTENT
+  ════════════════════════════════════════════════════════════════════════ -->
+  <main id="main-content">
+
+    <!-- Hero ──────────────────────────────────────────────────────────────── -->
+    <section id="home"
+             aria-label="Hero — Where birth feels safe"
+             class="bg-surface bg-watercolor min-h-screen flex items-center pt-20 pb-12 relative overflow-hidden">
+      <!-- Botanical leaf decoration — bottom left -->
+      <img src="/images/leaf-deco.png" alt="" aria-hidden="true"
+           class="leaf-deco bottom-0 left-0 w-48 lg:w-64 leaf-deco-flip mix-blend-multiply" loading="lazy">
+
+      <div class="max-w-7xl mx-auto px-6 lg:px-12 w-full relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+          <!-- Text content -->
+          <div class="lg:col-span-6 z-10">
+
+            <p class="font-label text-xs font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-6">
+              Professional Birth Doula &middot; Toronto, Canada
+            </p>
+
+            <h1 class="font-headline text-4xl md:text-6xl lg:text-8xl leading-tight text-on-surface mb-8">
+              <span class="hero-word">Where</span> <span class="hero-word">birth</span><br>
+              <em class="text-primary italic"><span class="hero-word">feels safe.</span></em>
+            </h1>
+
+            <p class="font-label text-lg leading-relaxed text-on-surface-variant mb-10 max-w-md hero-fade hero-fade-1">
+              A curated sanctuary for the modern birth journey. Personalized doula support from the first prenatal visit to the last postpartum call.
+            </p>
+
+            <div class="flex flex-wrap items-center gap-6 hero-fade hero-fade-2">
+              <a href="#services"
+                 class="cta-shimmer text-on-primary font-label text-base font-semibold px-10 py-4 rounded-full ambient-shadow hover:scale-[1.02] transition-transform">
+                Explore Our Care
+              </a>
+              <a href="#about"
+                 class="font-label text-primary font-bold flex items-center gap-2 group">
+                Our Philosophy
+                <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" aria-hidden="true">arrow_forward</span>
+              </a>
+            </div>
+
+          </div>
+
+          <!-- Hero image -->
+          <div class="lg:col-span-6 relative h-[350px] lg:h-[800px]">
+            <div class="absolute inset-0 asymmetric-shape overflow-hidden ambient-shadow hero-fade hero-fade-3">
+              <img src="/images/hero.png"
+                   alt="Serene nursery interior bathed in morning light"
+                   width="1200" height="800"
+                   class="w-full h-full object-cover">
+            </div>
+            <!-- Decorative ambient blobs — breathing animation -->
+            <div class="absolute -bottom-10 -left-10 w-48 h-48 bg-primary-container/30 rounded-full blur-3xl pointer-events-none breathe"
+                 aria-hidden="true"></div>
+            <div class="absolute top-20 -right-16 w-32 h-32 bg-tertiary-container/20 rounded-full blur-3xl pointer-events-none breathe"
+                 style="animation-delay: 2s;"
+                 aria-hidden="true"></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Wave: Hero → Services -->
+    <div aria-hidden="true" class="bg-surface">
+      <svg class="wave-divider" viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0 40C240 80 480 0 720 40C960 80 1200 0 1440 40V80H0V40Z" fill="#fdf9f1"/>
+      </svg>
+    </div>
+
+    <!-- Services ──────────────────────────────────────────────────────────── -->
+    <section id="services"
+             aria-label="Core Offerings — services"
+             class="bg-surface-container-low py-32">
+      <div class="max-w-7xl mx-auto px-6 lg:px-12">
+
+        <!-- Section header -->
+        <div class="text-center mb-20 section-reveal">
+          <p class="font-label text-xs font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-4">
+            Core Offerings
+          </p>
+          <h2 class="font-headline text-4xl lg:text-5xl text-on-surface">
+            Comprehensive Support Systems
+          </h2>
+        </div>
+
+        <!-- Cards grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 items-start">
+
+          <!-- Card 1: Prenatal Guidance — stagger down on md+ -->
+          <div class="md:pt-12 section-reveal" data-delay="1">
+            <article class="bg-surface-container-lowest asymmetric-shape p-8 ambient-shadow service-card">
+              <img src="/images/service-prenatal.png" alt="" loading="lazy"
+                   class="w-full h-48 object-contain rounded-2xl mb-6">
+              <h3 class="font-headline text-2xl text-on-surface mb-4">Prenatal Guidance</h3>
+              <p class="font-label text-on-surface-variant leading-relaxed mb-6">
+                Thoughtful preparation through every trimester, building confidence and calm for the journey ahead.
+              </p>
+              <ul class="space-y-3" role="list">
+                <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                  <span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0" aria-hidden="true"></span>
+                  Birth Plan Strategy
+                </li>
+                <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                  <span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0" aria-hidden="true"></span>
+                  Nutritional Counseling
+                </li>
+                <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                  <span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0" aria-hidden="true"></span>
+                  Movement &amp; Breathwork
+                </li>
+              </ul>
+            </article>
+          </div>
+
+          <!-- Card 2: Labor Doula Care — Featured (flush, tonal tint, No-Line rule) -->
+          <div class="section-reveal" data-delay="2">
+            <article class="bg-primary-container/10 asymmetric-shape p-8 ambient-shadow service-card">
+              <img src="/images/service-doula.png" alt="" loading="lazy"
+                   class="w-full h-48 object-contain rounded-2xl mb-6">
+              <h3 class="font-headline text-2xl text-on-surface mb-4">Labor Doula Care</h3>
+              <p class="font-label text-on-surface-variant leading-relaxed mb-6">
+                Continuous, compassionate presence through labor — supporting both you and your partner at every turn.
+              </p>
+              <ul class="space-y-3" role="list">
+                <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                  <span class="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" aria-hidden="true"></span>
+                  Continuous Labor Presence
+                </li>
+                <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                  <span class="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" aria-hidden="true"></span>
+                  Partner Coaching
+                </li>
+                <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                  <span class="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" aria-hidden="true"></span>
+                  Pain Management Tools
+                </li>
+              </ul>
+            </article>
+          </div>
+
+          <!-- Card 3: Postpartum Support — stagger further down on md+ -->
+          <div class="md:pt-24 section-reveal" data-delay="3">
+            <article class="bg-surface-container-lowest asymmetric-shape p-8 ambient-shadow service-card">
+              <img src="/images/service-postpartum.png" alt="" loading="lazy"
+                   class="w-full h-48 object-contain rounded-2xl mb-6">
+              <h3 class="font-headline text-2xl text-on-surface mb-4">Postpartum Support</h3>
+              <p class="font-label text-on-surface-variant leading-relaxed mb-6">
+                Nurturing care for the tender weeks after birth — for both new parent and newborn.
+              </p>
+              <ul class="space-y-3" role="list">
+                <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                  <span class="w-1.5 h-1.5 rounded-full bg-tertiary shrink-0" aria-hidden="true"></span>
+                  Newborn Care Education
+                </li>
+                <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                  <span class="w-1.5 h-1.5 rounded-full bg-tertiary shrink-0" aria-hidden="true"></span>
+                  Lactation Support
+                </li>
+                <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                  <span class="w-1.5 h-1.5 rounded-full bg-tertiary shrink-0" aria-hidden="true"></span>
+                  Emotional Recovery
+                </li>
+              </ul>
+            </article>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Wave: Services → About -->
+    <div aria-hidden="true" class="bg-surface-container-low">
+      <svg class="wave-divider" viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0 20C360 70 720 0 1080 40C1260 55 1380 30 1440 20V80H0V20Z" fill="#fffbff"/>
+      </svg>
+    </div>
+
+    <!-- About ─────────────────────────────────────────────────────────────── -->
+    <section id="about"
+             aria-label="Meet Your Guide — about Varshitha"
+             class="bg-surface py-32 relative overflow-hidden">
+
+      <!-- Botanical leaf decoration — top right -->
+      <img src="/images/leaf-deco.png" alt="" aria-hidden="true"
+           class="leaf-deco top-0 right-0 w-40 lg:w-56 mix-blend-multiply" loading="lazy">
+
+      <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+
+          <!-- Image column with floating quote card -->
+          <div class="relative section-reveal">
+
+            <!-- Portrait -->
+            <div class="asymmetric-shape overflow-hidden ambient-shadow h-[350px] md:h-[450px] lg:h-[600px] w-full">
+              <!-- Replace /images/about.png with Varshitha's portrait before launch -->
+              <img src="/images/about.png"
+                   alt="Varshitha, founder of Nurtured Nest, in a warm professional setting"
+                   width="800" height="1000"
+                   loading="lazy"
+                   class="w-full h-full object-cover object-top">
+            </div>
+
+            <!-- Quote card: inline on mobile, floating absolute on desktop (lg+) -->
+            <blockquote class="relative mt-6 lg:absolute lg:mt-0 lg:-top-10 lg:-right-10
+                               bg-surface-container p-8
+                               asymmetric-shape lg:rounded-xl
+                               ambient-shadow lg:max-w-[240px] quote-float">
+              <p class="font-headline italic text-xl text-primary mb-3">
+                "Your story is the foundation of our care."
+              </p>
+              <footer class="font-label text-xs uppercase tracking-widest text-on-surface-variant">
+                &mdash; Varshitha
+              </footer>
+            </blockquote>
+
+          </div>
+
+          <!-- Text content -->
+          <div class="section-reveal" data-delay="1">
+
+            <p class="font-label text-primary font-bold uppercase tracking-widest text-sm mb-6">
+              Meet Your Guide
+            </p>
+
+            <h2 class="font-headline text-5xl lg:text-6xl leading-tight text-on-surface mb-8">
+              Varshitha &mdash;<br>
+              <em class="italic text-primary">The Heart of Nest</em>
+            </h2>
+
+            <p class="font-label text-lg leading-relaxed text-on-surface-variant mb-6">
+              Nurtured Nest was born from a belief that every birth experience deserves an attentive, knowledgeable guide. Varshitha founded this practice to create the sanctuary she wished existed — a space where modern parents feel fully supported, seen, and safe.
+            </p>
+            <p class="font-label text-lg leading-relaxed text-on-surface-variant">
+              With training in evidence-based doula care and a background in maternal wellness, Varshitha brings warmth, clinical knowledge, and deep respect for each family's unique path. Based in Toronto, she serves families across the Greater Toronto Area.
+            </p>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Wave: About → Contact -->
+    <div aria-hidden="true" class="bg-surface">
+      <svg class="wave-divider" viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0 60C180 20 360 70 540 40C720 10 900 60 1080 30C1260 0 1380 50 1440 30V80H0V60Z" fill="#f7f3eb"/>
+      </svg>
+    </div>
+
+    <!-- Contact ───────────────────────────────────────────────────────────── -->
+    <section id="contact"
+             aria-label="Contact — let's connect"
+             class="bg-surface-container py-32 relative overflow-hidden">
+      <div class="max-w-7xl mx-auto px-6 lg:px-12">
+
+        <!-- Decorative background blobs -->
+      <div class="absolute top-10 left-10 w-64 h-64 bg-primary-container/15 rounded-full blur-3xl pointer-events-none breathe" aria-hidden="true"></div>
+      <div class="absolute bottom-10 right-10 w-48 h-48 bg-tertiary-container/15 rounded-full blur-3xl pointer-events-none breathe" style="animation-delay: 3s;" aria-hidden="true"></div>
+
+      <div class="bg-surface-container-lowest asymmetric-shape p-8 lg:p-16 ambient-shadow max-w-2xl mx-auto section-reveal relative z-10">
+          <div class="max-w-xl mx-auto text-center">
+
+            <p class="font-label text-xs font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-4">
+              Get In Touch
+            </p>
+
+            <h2 class="font-headline text-4xl lg:text-5xl text-on-surface mb-6">
+              Let's connect.
+            </h2>
+
+            <p class="font-label text-lg text-on-surface-variant leading-relaxed mb-12">
+              Every sanctuary starts with a conversation. We offer a complimentary 20-minute discovery call to explore how we can support your journey.
+            </p>
+
+            <!-- Contact info rows -->
+            <div class="space-y-6 mb-12 text-left">
+
+              <!-- Phone -->
+              <a href="tel:+12269759978"
+                 class="flex items-start gap-6 hover:opacity-80 transition-opacity">
+                <div class="w-12 h-12 rounded-full bg-primary-container/40 flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-primary" aria-hidden="true">phone</span>
+                </div>
+                <div>
+                  <p class="font-label text-xs uppercase tracking-widest font-bold text-primary mb-1">Call Us</p>
+                  <p class="font-headline text-xl text-on-surface">226-975-9978</p>
+                </div>
+              </a>
+
+              <!-- Email -->
+              <a href="mailto:nurturednestca@gmail.com"
+                 class="flex items-start gap-6 hover:opacity-80 transition-opacity">
+                <div class="w-12 h-12 rounded-full bg-primary-container/40 flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-primary" aria-hidden="true">mail</span>
+                </div>
+                <div>
+                  <p class="font-label text-xs uppercase tracking-widest font-bold text-primary mb-1">Email Us</p>
+                  <p class="font-headline text-xl text-on-surface">nurturednestca@gmail.com</p>
+                </div>
+              </a>
+
+            </div>
+
+            <!-- Calendly CTA -->
+            <div class="flex flex-col items-center gap-3">
+              <!-- TODO: Replace href="#" with real Calendly URL before launch -->
+              <a href="#"
+                 class="cta-shimmer text-on-primary font-label text-lg font-semibold px-12 py-5 rounded-full ambient-shadow hover:scale-[1.02] transition-transform">
+                Book a Free Consultation
+              </a>
+              <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant font-medium">
+                Free 20&#8209;Minute Intro Call
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════════════════════════════════ -->
+  <footer role="contentinfo" aria-label="Site footer"
+          class="bg-surface-container-highest border-t border-outline-variant/5 relative overflow-hidden">
+
+    <!-- Botanical leaf decoration — bottom right -->
+    <img src="/images/leaf-deco.png" alt="" aria-hidden="true"
+         class="leaf-deco bottom-0 right-0 w-32 lg:w-48 opacity-15 mix-blend-multiply" loading="lazy"
+         style="transform: scaleX(-1) scaleY(-1);">
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 py-16 relative z-10">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+
+        <!-- Logo + brand name -->
+        <a href="#home" class="flex items-center gap-3" aria-label="Nurtured Nest — back to top">
+          <img src="/icons/logo.svg"
+               alt=""
+               width="72" height="72"
+               class="w-[72px] h-[72px] object-contain -my-2">
+          <span class="font-brand text-3xl text-on-surface">Nurtured Nest</span>
+        </a>
+
+        <!-- Copyright -->
+        <!-- TODO: Update year each year -->
+        <p class="font-label text-xs text-on-surface-variant">
+          &copy; 2026 Nurtured Nest Care
+        </p>
+
+        <!-- Legal links — separate pages, not modals -->
+        <nav aria-label="Legal navigation">
+          <ul class="flex items-center gap-8" role="list">
+            <li>
+              <a href="/privacy"
+                 class="font-label text-xs uppercase tracking-widest font-bold text-on-surface-variant hover:text-primary transition-colors">
+                Privacy Policy
+              </a>
+            </li>
+            <li>
+              <a href="/terms"
+                 class="font-label text-xs uppercase tracking-widest font-bold text-on-surface-variant hover:text-primary transition-colors">
+                Terms of Care
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="/js/main.js"></script>
+
+</body>
+</html>

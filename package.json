@@ -1,0 +1,35 @@
+{
+  "name": "nurtured-nest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build": "npx @tailwindcss/cli -i ./src/input.css -o ./public/css/styles.css --minify",
+    "watch": "npx @tailwindcss/cli -i ./src/input.css -o ./public/css/styles.css --watch",
+    "generate-icons": "node scripts/generate-icons.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sarathfrancis90/nurtured-nest.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/sarathfrancis90/nurtured-nest/issues"
+  },
+  "homepage": "https://github.com/sarathfrancis90/nurtured-nest#readme",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.2.2",
+    "autoprefixer": "^10.4.27",
+    "png-to-ico": "^3.0.1",
+    "postcss": "^8.5.8",
+    "sharp": "^0.34.5",
+    "tailwindcss": "^4.2.2"
+  }
+}

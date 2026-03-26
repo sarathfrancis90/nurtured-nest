@@ -1,0 +1,424 @@
+@import "tailwindcss";
+
+/* ─── Brittany Signature Script (brand lockup only) ──────────────────────── */
+@font-face {
+  font-family: 'Brittany Signature';
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+  src: url('/fonts/BrittanySignatureScript.woff') format('woff');
+}
+
+/* ─── Design Token Theme (Tailwind v4) ───────────────────────────────────── */
+/* Source of truth for all design tokens. Replaces tailwind.config.js for v4. */
+@theme {
+  /* Fonts */
+  --font-headline: "Noto Serif", Georgia, serif;
+  --font-label:    "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-brand:    "Brittany Signature", cursive;
+
+  /* Primary */
+  --color-primary:                    #3e6a7e;
+  --color-primary-dim:                #315e72;
+  --color-primary-container:          #b9e6fe;
+  --color-primary-fixed:              #b9e6fe;
+  --color-primary-fixed-dim:          #abd8ef;
+  --color-on-primary:                 #ffffff;
+  --color-on-primary-container:       #275569;
+  --color-on-primary-fixed:           #104356;
+  --color-on-primary-fixed-variant:   #325f73;
+  --color-inverse-primary:            #b9e6fe;
+
+  /* Secondary */
+  --color-secondary:                  #4f6875;
+  --color-secondary-dim:              #435c69;
+  --color-secondary-container:        #cce6f6;
+  --color-secondary-fixed:            #cce6f6;
+  --color-secondary-fixed-dim:        #bed8e8;
+  --color-on-secondary:               #ffffff;
+  --color-on-secondary-container:     #3c5562;
+  --color-on-secondary-fixed:         #29434f;
+  --color-on-secondary-fixed-variant: #465f6c;
+
+  /* Tertiary (warm accent) */
+  --color-tertiary:                   #6d6353;
+  --color-tertiary-dim:               #605748;
+  --color-tertiary-container:         #f4e6d2;
+  --color-tertiary-fixed:             #f4e6d2;
+  --color-tertiary-fixed-dim:         #e6d8c5;
+  --color-on-tertiary:                #ffffff;
+  --color-on-tertiary-container:      #5d5445;
+  --color-on-tertiary-fixed:          #4a4233;
+  --color-on-tertiary-fixed-variant:  #675e4e;
+
+  /* Surface hierarchy (light → warm/deep) */
+  --color-surface-container-lowest:   #ffffff;
+  --color-surface:                    #fffbff;
+  --color-surface-bright:             #fffbff;
+  --color-background:                 #fffbff;
+  --color-surface-container-low:      #fdf9f1;
+  --color-surface-container:          #f7f3eb;
+  --color-surface-container-high:     #f1eee5;
+  --color-surface-container-highest:  #ece8de;
+  --color-surface-variant:            #ece8de;
+  --color-surface-tint:               #3e6a7e;
+
+  /* Text & content */
+  --color-on-surface:                 #2d2c26;
+  --color-on-background:              #2d2c26;
+  --color-on-surface-variant:         #4d4b45;
+  --color-inverse-surface:            #0f0e0b;
+  --color-inverse-on-surface:         #9f9d97;
+
+  /* Outline */
+  --color-outline:                    #838178;
+  --color-outline-variant:            #bcb9b0;
+
+  /* Error */
+  --color-error:                      #af3d3b;
+  --color-error-dim:                  #67040d;
+  --color-error-container:            #fa746f;
+  --color-on-error:                   #ffffff;
+  --color-on-error-container:         #6e0a12;
+}
+
+/* ─── Material Symbols Outlined ─────────────────────────────────────────── */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* ─── Custom Utility Classes ─────────────────────────────────────────────── */
+@layer utilities {
+  /* Signature asymmetric shape — TL/BR: 3rem, TR/BL: 1.5rem */
+  .asymmetric-shape {
+    border-top-left-radius: 3rem;
+    border-bottom-right-radius: 3rem;
+    border-top-right-radius: 1.5rem;
+    border-bottom-left-radius: 1.5rem;
+  }
+
+  /* Signature CTA gradient — both stops pass WCAG AA contrast with white text */
+  .signature-gradient {
+    background: linear-gradient(135deg, #315e72 0%, #3e6a7e 100%);
+  }
+
+  /* Tinted ambient shadow — never pure black */
+  .ambient-shadow {
+    box-shadow: 0 24px 48px -12px rgba(57, 56, 49, 0.05);
+  }
+}
+
+/* ─── Focus-Visible States (WCAG 2.1 AA keyboard navigation) ────────────── */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.signature-gradient:focus-visible {
+  outline: 2px solid var(--color-on-surface);
+  outline-offset: 4px;
+}
+
+/* ─── Glassmorphism: Desktop Top Nav ─────────────────────────────────────── */
+.glass-nav {
+  background: rgba(255, 251, 255, 0.70);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* ─── Glassmorphism: Mobile Bottom Nav (Apple Liquid Glass) ──────────────── */
+.liquid-glass-nav {
+  background: rgba(255, 251, 255, 0.60);
+  -webkit-backdrop-filter: blur(24px);
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 -4px 24px -4px rgba(57, 56, 49, 0.05);
+}
+
+/* ─── backdrop-filter: @supports wrapper prevents Lightning CSS stripping ── */
+/* Without this, Tailwind v4 / Lightning CSS strips unprefixed backdrop-filter */
+/* leaving only -webkit-backdrop-filter, which breaks Firefox.                */
+@supports (backdrop-filter: blur(1px)) {
+  .glass-nav     { backdrop-filter: blur(16px); }
+  .liquid-glass-nav { backdrop-filter: blur(24px); }
+}
+
+/* ─── Scroll-Triggered Section Reveal Animation ──────────────────────────── */
+.section-reveal {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition: opacity 1000ms cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 1000ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.section-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered card reveals — gentle cascade */
+.section-reveal[data-delay="1"] { transition-delay: 200ms; }
+.section-reveal[data-delay="2"] { transition-delay: 400ms; }
+.section-reveal[data-delay="3"] { transition-delay: 600ms; }
+
+/* ─── Gentle Breathing Animation (decorative blobs) ─────────────────────── */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50%      { transform: scale(1.15); opacity: 0.5; }
+}
+
+.breathe {
+  animation: breathe 6s ease-in-out infinite;
+}
+
+/* ─── Gentle Float (hero text emphasis) ──────────────────────────────────── */
+@keyframes gentle-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+.gentle-float {
+  animation: gentle-float 4s ease-in-out infinite;
+}
+
+/* ─── Soft Parallax Scroll Effect ────────────────────────────────────────── */
+.parallax-slow {
+  will-change: transform;
+  transition: transform 0.1s linear;
+}
+
+/* ─── Service Card Hover — gentle lift with warm shadow ──────────────────── */
+.service-card {
+  transition: transform 700ms cubic-bezier(0.25, 0.1, 0.25, 1),
+              box-shadow 700ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.service-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 32px 64px -16px rgba(62, 106, 126, 0.12);
+}
+
+/* ─── Watercolor Background Texture ──────────────────────────────────────── */
+.bg-watercolor {
+  background-image: url('/images/bg-watercolor.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ─── Botanical Leaf Decoration ──────────────────────────────────────────── */
+.leaf-deco {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.25;
+  z-index: 0;
+}
+
+.leaf-deco-flip {
+  transform: scaleX(-1);
+}
+
+/* ─── Section Wave Divider ───────────────────────────────────────────────── */
+.wave-divider {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: -1px;
+  margin-bottom: -1px;
+}
+
+/* ─── Page Load Fade-In ──────────────────────────────────────────────────── */
+@keyframes page-awaken {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+body {
+  animation: page-awaken 800ms ease-out forwards;
+}
+
+/* ─── Hero Staggered Word Reveal ─────────────────────────────────────────── */
+@keyframes word-rise {
+  from { opacity: 0; transform: translateY(20px); filter: blur(4px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+}
+
+.hero-word {
+  opacity: 0;
+  display: inline-block;
+  animation: word-rise 800ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+.hero-word:nth-child(1) { animation-delay: 300ms; }
+.hero-word:nth-child(2) { animation-delay: 500ms; }
+.hero-word:nth-child(3) { animation-delay: 700ms; }
+
+/* ─── Image Reveal — organic clip-path wipe ──────────────────────────────── */
+@keyframes image-unveil {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+.image-reveal {
+  clip-path: inset(0 100% 0 0);
+}
+
+.image-reveal.visible {
+  animation: image-unveil 1200ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+/* ─── CTA Shimmer — subtle light sweep ───────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.cta-shimmer {
+  position: relative;
+  overflow: hidden;
+  background-size: 200% 100%;
+  background-image: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 60%
+  ),
+  linear-gradient(135deg, #315e72 0%, #3e6a7e 100%);
+  animation: shimmer 4s ease-in-out infinite;
+}
+
+/* ─── Nav Link Hover Underline — grows from center ───────────────────────── */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--color-primary);
+  border-radius: 1px;
+  transition: width 400ms cubic-bezier(0.25, 0.1, 0.25, 1),
+              left 400ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.nav-link:hover::after,
+.nav-link.text-primary::after {
+  width: 100%;
+  left: 0;
+}
+
+/* ─── Scroll Progress Bar ────────────────────────────────────────────────── */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #3e6a7e, #b9e6fe);
+  z-index: 100;
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 100ms linear;
+}
+
+/* ─── Cursor Warm Glow (desktop) ─────────────────────────────────────────── */
+.cursor-glow {
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(185, 230, 254, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  transform: translate(-50%, -50%);
+  transition: opacity 400ms ease;
+}
+
+/* ─── Quote Card Float ───────────────────────────────────────────────────── */
+@keyframes quote-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33%      { transform: translateY(-5px) rotate(0.5deg); }
+  66%      { transform: translateY(-3px) rotate(-0.3deg); }
+}
+
+.quote-float {
+  animation: quote-float 8s ease-in-out infinite;
+}
+
+/* ─── Service Card Image Hover Scale ─────────────────────────────────────── */
+.service-card img {
+  transition: transform 700ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.service-card:hover img {
+  transform: scale(1.05);
+}
+
+/* ─── Hero Subtitle Fade-In ──────────────────────────────────────────────── */
+@keyframes fade-up-gentle {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-fade {
+  opacity: 0;
+  animation: fade-up-gentle 1000ms cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+.hero-fade-1 { animation-delay: 900ms; }
+.hero-fade-2 { animation-delay: 1100ms; }
+.hero-fade-3 { animation-delay: 1300ms; }
+
+/* ─── Reduced Motion ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .section-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  #mobile-nav {
+    transform: none;
+    transition: none;
+  }
+
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  .hero-word,
+  .hero-fade,
+  .image-reveal,
+  .image-reveal.visible {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    clip-path: none !important;
+    animation: none !important;
+  }
+
+  .cursor-glow,
+  .scroll-progress {
+    display: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ─── Mobile Bottom Nav: Appear Animation ────────────────────────────────── */
+#mobile-nav {
+  transform: translateY(100%);
+  transition: transform 500ms ease-out;
+}
+
+#mobile-nav.nav-visible {
+  transform: translateY(0);
+}
