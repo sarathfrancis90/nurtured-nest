@@ -6,11 +6,27 @@
   <title>Nurtured Nest — Where Birth Feels Safe</title>
   <meta name="description" content="A curated sanctuary for the modern birth journey. Professional birth doula services by Varshitha, based in Toronto, Canada.">
 
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://nurturednest.ca/">
+
   <!-- Open Graph -->
   <meta property="og:title" content="Nurtured Nest — Where Birth Feels Safe">
   <meta property="og:description" content="A curated sanctuary for the modern birth journey. Professional birth doula by Varshitha, Toronto Canada.">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="/icons/og-image.png">
+  <meta property="og:url" content="https://nurturednest.ca/">
+  <meta property="og:image" content="https://nurturednest.ca/icons/og-image.png">
+  <meta property="og:site_name" content="Nurtured Nest">
+  <meta property="og:locale" content="en_CA">
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nurtured Nest — Where Birth Feels Safe">
+  <meta name="twitter:description" content="A curated sanctuary for the modern birth journey. Professional birth doula by Varshitha, Toronto Canada.">
+  <meta name="twitter:image" content="https://nurturednest.ca/icons/og-image.png">
+
+  <!-- Additional SEO -->
+  <meta name="geo.region" content="CA-ON">
+  <meta name="geo.placename" content="Toronto">
 
   <!-- Favicon & App Icons -->
   <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
@@ -30,6 +46,89 @@
 
   <!-- Compiled Tailwind CSS -->
   <link rel="stylesheet" href="/css/styles.css">
+
+  <!-- Schema.org Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LocalBusiness",
+        "@id": "https://nurturednest.ca/#business",
+        "name": "Nurtured Nest",
+        "description": "Professional birth doula services in Toronto, Canada. Prenatal guidance, continuous labour support, and postpartum care for the modern birth journey.",
+        "url": "https://nurturednest.ca",
+        "telephone": "+1-226-975-9978",
+        "email": "nurturednestca@gmail.com",
+        "image": "https://nurturednest.ca/icons/og-image.png",
+        "logo": "https://nurturednest.ca/icons/logo.svg",
+        "priceRange": "$$",
+        "areaServed": {
+          "@type": "GeoCircle",
+          "geoMidpoint": {
+            "@type": "GeoCoordinates",
+            "latitude": 43.6532,
+            "longitude": -79.3832
+          },
+          "geoRadius": "50000"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Toronto",
+          "addressRegion": "ON",
+          "addressCountry": "CA"
+        },
+        "founder": {
+          "@type": "Person",
+          "@id": "https://nurturednest.ca/#founder",
+          "name": "Varshitha",
+          "jobTitle": "Professional Birth Doula",
+          "description": "Certified birth doula with training in evidence-based doula care and maternal wellness, serving families across the Greater Toronto Area.",
+          "worksFor": { "@id": "https://nurturednest.ca/#business" }
+        },
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Doula Services",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Prenatal Guidance",
+                "description": "Comprehensive prenatal preparation including birth plan strategy, nutritional counseling, and movement & breathwork through every trimester."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Labour Doula Care",
+                "description": "Continuous compassionate presence through labour with partner coaching, pain management tools, and advocacy for birth preferences."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Postpartum Support",
+                "description": "Nurturing postpartum care including newborn care education, lactation support, and emotional recovery for new parents."
+              }
+            }
+          ]
+        },
+        "sameAs": []
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://nurturednest.ca/#website",
+        "url": "https://nurturednest.ca",
+        "name": "Nurtured Nest",
+        "description": "Where Birth Feels Safe",
+        "publisher": { "@id": "https://nurturednest.ca/#business" }
+      }
+    ]
+  }
+  </script>
 
   <!-- Plausible Analytics (cookie-free, no consent banner needed) -->
   <script defer data-domain="nurturednest.ca" src="https://plausible.io/js/script.js"></script>
@@ -160,7 +259,7 @@
              aria-label="Hero — Where birth feels safe"
              class="bg-surface bg-watercolor min-h-screen flex items-center pt-20 pb-12 relative overflow-hidden">
       <!-- Botanical leaf decoration — bottom left -->
-      <img src="/images/leaf-deco.png" alt="" aria-hidden="true"
+      <img src="/images/leaf-deco.webp" alt="" aria-hidden="true"
            class="leaf-deco bottom-0 left-0 w-48 lg:w-64 leaf-deco-flip mix-blend-multiply" loading="lazy">
 
       <div class="max-w-7xl mx-auto px-6 lg:px-12 w-full relative z-10">
@@ -199,7 +298,7 @@
           <!-- Hero image -->
           <div class="lg:col-span-6 relative h-[350px] lg:h-[800px]">
             <div class="absolute inset-0 asymmetric-shape overflow-hidden ambient-shadow hero-fade hero-fade-3">
-              <img src="/images/hero.png"
+              <img src="/images/hero.webp"
                    alt="Serene nursery interior bathed in morning light"
                    width="1200" height="800"
                    class="w-full h-full object-cover">
@@ -245,7 +344,7 @@
           <!-- Card 1: Prenatal Guidance — stagger down on md+ -->
           <div class="md:pt-12 section-reveal" data-delay="1">
             <article class="bg-surface-container-lowest asymmetric-shape p-8 ambient-shadow service-card">
-              <img src="/images/service-prenatal.png" alt="" loading="lazy"
+              <img src="/images/service-prenatal.webp" alt="" loading="lazy"
                    class="w-full h-48 object-contain rounded-2xl mb-6">
               <h3 class="font-headline text-2xl text-on-surface mb-4">Prenatal Guidance</h3>
               <p class="font-label text-on-surface-variant leading-relaxed mb-6">
@@ -271,7 +370,7 @@
           <!-- Card 2: Labor Doula Care — Featured (flush, tonal tint, No-Line rule) -->
           <div class="section-reveal" data-delay="2">
             <article class="bg-primary-container/10 asymmetric-shape p-8 ambient-shadow service-card">
-              <img src="/images/service-doula.png" alt="" loading="lazy"
+              <img src="/images/service-doula.webp" alt="" loading="lazy"
                    class="w-full h-48 object-contain rounded-2xl mb-6">
               <h3 class="font-headline text-2xl text-on-surface mb-4">Labor Doula Care</h3>
               <p class="font-label text-on-surface-variant leading-relaxed mb-6">
@@ -297,7 +396,7 @@
           <!-- Card 3: Postpartum Support — stagger further down on md+ -->
           <div class="md:pt-24 section-reveal" data-delay="3">
             <article class="bg-surface-container-lowest asymmetric-shape p-8 ambient-shadow service-card">
-              <img src="/images/service-postpartum.png" alt="" loading="lazy"
+              <img src="/images/service-postpartum.webp" alt="" loading="lazy"
                    class="w-full h-48 object-contain rounded-2xl mb-6">
               <h3 class="font-headline text-2xl text-on-surface mb-4">Postpartum Support</h3>
               <p class="font-label text-on-surface-variant leading-relaxed mb-6">
@@ -337,7 +436,7 @@
              class="bg-surface py-32 relative overflow-hidden">
 
       <!-- Botanical leaf decoration — top right -->
-      <img src="/images/leaf-deco.png" alt="" aria-hidden="true"
+      <img src="/images/leaf-deco.webp" alt="" aria-hidden="true"
            class="leaf-deco top-0 right-0 w-40 lg:w-56 mix-blend-multiply" loading="lazy">
 
       <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
@@ -348,8 +447,8 @@
 
             <!-- Portrait -->
             <div class="asymmetric-shape overflow-hidden ambient-shadow h-[350px] md:h-[450px] lg:h-[600px] w-full">
-              <!-- Replace /images/about.png with Varshitha's portrait before launch -->
-              <img src="/images/about.png"
+              <!-- Replace /images/about.webp with Varshitha's portrait before launch -->
+              <img src="/images/about.webp"
                    alt="Varshitha, founder of Nurtured Nest, in a warm professional setting"
                    width="800" height="1000"
                    loading="lazy"
@@ -484,7 +583,7 @@
           class="bg-surface-container-highest border-t border-outline-variant/5 relative overflow-hidden">
 
     <!-- Botanical leaf decoration — bottom right (hidden on mobile to avoid white edge) -->
-    <img src="/images/leaf-deco.png" alt="" aria-hidden="true"
+    <img src="/images/leaf-deco.webp" alt="" aria-hidden="true"
          class="leaf-deco bottom-0 right-0 w-32 lg:w-48 opacity-15 mix-blend-multiply hidden md:block" loading="lazy"
          style="transform: scaleX(-1) scaleY(-1);">
 

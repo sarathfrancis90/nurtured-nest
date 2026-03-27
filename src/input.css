@@ -200,7 +200,7 @@ button:focus-visible {
 
 /* ─── Watercolor Background Texture ──────────────────────────────────────── */
 .bg-watercolor {
-  background-image: url('/images/bg-watercolor.png');
+  background-image: url('/images/bg-watercolor.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
