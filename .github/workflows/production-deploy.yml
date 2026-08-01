@@ -92,7 +92,7 @@ jobs:
           set -euo pipefail
           if [[ "$DATABASE_URL" != postgresql://* && "$DATABASE_URL" != postgres://* ]]; then
             encoded_password="$(node -e 'console.log(encodeURIComponent(process.argv[1]))' "$DATABASE_URL")"
-            DATABASE_URL="postgresql://postgres.elrwbfichkuxppviblty:${encoded_password}@aws-0-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require"
+            DATABASE_URL="postgresql://postgres.elrwbfichkuxppviblty:${encoded_password}@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require"
             export DATABASE_URL
           fi
           npx prisma migrate deploy
@@ -115,7 +115,7 @@ jobs:
 
           if [[ "$DATABASE_URL" != postgresql://* && "$DATABASE_URL" != postgres://* ]]; then
             encoded_password="$(node -e 'console.log(encodeURIComponent(process.argv[1]))' "$DATABASE_URL")"
-            DATABASE_URL="postgresql://postgres.elrwbfichkuxppviblty:${encoded_password}@aws-0-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require"
+            DATABASE_URL="postgresql://postgres.elrwbfichkuxppviblty:${encoded_password}@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require"
           fi
 
           sync_env() {
