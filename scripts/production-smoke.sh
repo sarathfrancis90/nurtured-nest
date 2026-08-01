@@ -19,8 +19,8 @@ if [ "$home_status" != "200" ]; then
   exit 1
 fi
 
-if ! grep -q 'href="/book"' /tmp/nn-home.html; then
-  echo "[production-smoke] FAIL: home page does not expose /book booking entrypoint"
+if ! cmp -s public/index.html /tmp/nn-home.html; then
+  echo "[production-smoke] FAIL: deployed homepage differs from the preserved static homepage"
   exit 1
 fi
 
