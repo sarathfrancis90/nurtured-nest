@@ -1,3 +1,5 @@
+import { PrismaClient } from '@prisma/client';
+
 const baseUrl = process.env.APP_URL;
 const cronSecret = process.env.CRON_SECRET;
 
@@ -31,21 +33,34 @@ const request = async (path, options = {}) => {
   return { response, body };
 };
 
-const assertStatus = (label, result, expected) => {
+const prisma = process.env.DATABASE_URL ? new PrismaClient() : null;
+const printOutboxDiagnostics = async (bookingId) => {
+  if (!prisma || !bookingId) return;
+  const rows = await prisma.bookingNotificationOutbox.findMany({
+    where: { bookingId },
+    orderBy: { createdAt: 'asc' },
+    select: { kind: true, channel: true, status: true, attemptCount: true, providerMessageId: true, lastError: true },
+  });
+  console.log('outbox diagnostics:', JSON.stringify(safeBody(rows)));
+};
+
+const assertStatus = async (label, result, expected, bookingId) => {
   if (result.response.status !== expected) {
+    await printOutboxDiagnostics(bookingId);
     throw new Error(`${label} returned ${result.response.status}: ${JSON.stringify(safeBody(result.body))}`);
   }
   console.log(`${label}: ${result.response.status}`, JSON.stringify(safeBody(result.body)));
 };
 
-const runCron = async (label) => {
+const runCron = async (label, bookingId) => {
   const result = await request('/api/bookings/cron', {
     method: 'POST',
     headers: { 'x-cron-secret': cronSecret },
   });
-  assertStatus(label, result, 200);
+  await assertStatus(label, result, 200, bookingId);
   const summary = result.body?.data || result.body;
   if (typeof summary.failed === 'number' && summary.failed > 0) {
+    await printOutboxDiagnostics(bookingId);
     throw new Error(`${label} reported failed notifications: ${JSON.stringify(safeBody(summary))}`);
   }
   return result;
@@ -81,34 +96,34 @@ try {
       notes: 'Automated notification lifecycle smoke test. Final state must be cancelled.',
     }),
   });
-  assertStatus('booking create', created, 201);
+  await assertStatus('booking create', created, 201);
   booking = { ...booking, ...created.body.data };
 
   const pending = await request(`/api/bookings/${booking.booking_id}/manage?token=${encodeURIComponent(booking.manage_token)}`);
-  assertStatus('manage pending read', pending, 200);
-  await runCron('cron after booking create');
+  await assertStatus('manage pending read', pending, 200, booking.booking_id);
+  await runCron('cron after booking create', booking.booking_id);
 
   const confirmed = await request(`/api/bookings/${booking.booking_id}/confirm`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({ token: booking.confirm_token }),
   });
-  assertStatus('booking confirm', confirmed, 200);
+  await assertStatus('booking confirm', confirmed, 200, booking.booking_id);
 
   const confirmedRead = await request(`/api/bookings/${booking.booking_id}/manage?token=${encodeURIComponent(booking.manage_token)}`);
-  assertStatus('manage confirmed read', confirmedRead, 200);
-  await runCron('cron after booking confirmation');
+  await assertStatus('manage confirmed read', confirmedRead, 200, booking.booking_id);
+  await runCron('cron after booking confirmation', booking.booking_id);
 
   const cancelled = await request(`/api/bookings/${booking.booking_id}/cancel`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({ token: booking.manage_token }),
   });
-  assertStatus('booking cancel', cancelled, 200);
+  await assertStatus('booking cancel', cancelled, 200, booking.booking_id);
 
   const cancelledRead = await request(`/api/bookings/${booking.booking_id}/manage?token=${encodeURIComponent(booking.manage_token)}`);
-  assertStatus('manage cancelled read', cancelledRead, 200);
-  await runCron('cron after booking cancellation');
+  await assertStatus('manage cancelled read', cancelledRead, 200, booking.booking_id);
+  await runCron('cron after booking cancellation', booking.booking_id);
   console.log('Production notification lifecycle smoke passed; test booking final state is cancelled.');
 } catch (error) {
   if (booking?.booking_id && booking?.manage_token) {
@@ -118,5 +133,8 @@ try {
       body: JSON.stringify({ token: booking.manage_token }),
     }).catch(() => undefined);
   }
+  await prisma?.$disconnect();
   throw error;
 }
+
+await prisma?.$disconnect();
