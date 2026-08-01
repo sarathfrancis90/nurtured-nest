@@ -170,7 +170,8 @@ for (const viewport of viewports) {
       await expect(cancel).toBeVisible();
 
       const mobileNavVisible = await page.locator('.mobile-nav').isVisible();
-      expect(mobileNavVisible).toBe(viewport.hasMobileNav);
+      const bookingFlowHidesMobileNav = page.url().includes('/book/');
+      expect(mobileNavVisible).toBe(viewport.hasMobileNav && !bookingFlowHidesMobileNav);
 
       await page.getByRole('button', { name: /confirm booking from secure token link/i }).click();
       await expect(page.getByText(/status:\s*confirmed/i)).toBeVisible();
