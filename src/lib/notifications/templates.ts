@@ -3,6 +3,7 @@ export type NotificationTemplateInput = {
   booking_id: string;
   kind: NotificationKind;
   recipient: string;
+  channel: 'email' | 'sms';
   timezone: string;
   start_at_utc: string;
   reference_code?: string;
@@ -67,6 +68,7 @@ export function buildEmailNotificationContent(input: NotificationTemplateInput):
   const subject = notificationSubjectFor(input.kind);
   const startsAt = formatStartTime(input.start_at_utc, input.timezone);
   const heading = titleByKind[input.kind];
+  const deliveryLabel = input.channel === 'sms' ? 'Text message' : 'Email';
   const referenceLine = input.reference_code ? `<p><strong>Reference code:</strong> ${escapeHtml(input.reference_code)}</p>` : '';
   const serviceLine = input.service_type ? `<p><strong>Service:</strong> ${escapeHtml(input.service_type)}</p>` : '';
 
@@ -79,7 +81,7 @@ export function buildEmailNotificationContent(input: NotificationTemplateInput):
       ${referenceLine}
       <p><strong>Starts:</strong> ${escapeHtml(startsAt)}</p>
       <p><strong>Timezone:</strong> ${escapeHtml(input.timezone)}</p>
-      <p><strong>Mode:</strong> ${input.recipient}</p>
+      <p><strong>Delivery:</strong> ${deliveryLabel}</p>
       <p style="padding: 0.8rem; background: #f7f3eb; border-left: 3px solid #3e6a7e; border-radius: 4px;">
         Need help? Use your secure manage link in-app and update your booking at any time.
       </p>
