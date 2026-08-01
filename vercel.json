@@ -1,6 +1,11 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "public",
-  "framework": null,
-  "cleanUrls": true
+  "framework": "nextjs",
+  "cleanUrls": true,
+  "crons": [
+    {
+      "path": "/api/bookings/cron",
+      "schedule": "0 13 * * *"
+    }
+  ]
 }

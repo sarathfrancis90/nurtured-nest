@@ -1,35 +1,43 @@
 {
-  "name": "nurtured-nest",
+  "name": "nurtured-nest-booking",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
+  "private": true,
   "scripts": {
-    "build": "npx @tailwindcss/cli -i ./src/input.css -o ./public/css/styles.css --minify",
-    "watch": "npx @tailwindcss/cli -i ./src/input.css -o ./public/css/styles.css --watch",
-    "generate-icons": "node scripts/generate-icons.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "lint": "next lint",
+    "e2e": "playwright test",
+    "e2e:ui": "playwright test --ui",
+    "qa:smoke": "playwright test tests/e2e/booking-entry.spec.ts tests/e2e/booking-contract.spec.ts tests/e2e/booking-cron-contract.spec.ts tests/e2e/booking-notification-contract.spec.ts",
+    "qa": "npm run typecheck && bash scripts/e2e-ci.sh",
+    "qa:ci": "npm run typecheck && bash scripts/e2e-ci.sh",
+    "verify:production": "npm run build && npm run typecheck && APP_URL=\"http://127.0.0.1:3001\" E2E_BASE_URL=\"http://127.0.0.1:3001\" bash scripts/e2e-ci.sh && APP_URL=\"http://127.0.0.1:3001\" E2E_BASE_URL=\"http://127.0.0.1:3001\" bash scripts/e2e-ci.sh tests/e2e/booking-contract.spec.ts tests/e2e/booking-cron-contract.spec.ts && APP_URL=\"http://127.0.0.1:3001\" E2E_BASE_URL=\"http://127.0.0.1:3001\" bash scripts/e2e-ci.sh tests/e2e/booking-notification-contract.spec.ts && npm run db:smoke",
+    "api:contracts": "bash scripts/e2e-ci.sh tests/e2e/booking-contract.spec.ts tests/e2e/booking-cron-contract.spec.ts",
+    "db:smoke": "node scripts/db-smoke.cjs",
+    "notify:contracts": "bash scripts/e2e-ci.sh tests/e2e/booking-notification-contract.spec.ts",
+    "notify:live": "node scripts/notify-live-audit.cjs",
+    "smoke:production": "bash scripts/production-smoke.sh",
+    "prisma": "prisma",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sarathfrancis90/nurtured-nest.git"
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "luxon": "^3.5.0",
+    "next": "^14.2.5",
+    "prisma": "^5.22.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zod": "^3.24.1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/sarathfrancis90/nurtured-nest/issues"
-  },
-  "homepage": "https://github.com/sarathfrancis90/nurtured-nest#readme",
   "devDependencies": {
-    "@tailwindcss/cli": "^4.2.2",
-    "autoprefixer": "^10.4.27",
-    "png-to-ico": "^3.0.1",
-    "postcss": "^8.5.8",
-    "sharp": "^0.34.5",
-    "tailwindcss": "^4.2.2"
+    "@types/luxon": "^3.5.0",
+    "@types/node": "^20.16.0",
+    "@playwright/test": "^1.48.0",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.1",
+    "typescript": "^5.5.4"
   }
 }

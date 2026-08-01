@@ -1,4 +1,10 @@
-node_modules/
-.DS_Store
-.claude.json
-.claude/
+node_modules
+.next
+*.tsbuildinfo
+out
+prisma/migrations
+playwright/.cache
+test-results
+.env.local
+.vercel
+.env*

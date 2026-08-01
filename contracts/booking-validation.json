@@ -1,0 +1,198 @@
+{
+  "api": {
+    "basePath": "/api/bookings",
+    "responseEnvelope": {
+      "success": {
+        "ok": true,
+        "data": "object",
+        "request_id": "string"
+      },
+      "error": {
+        "ok": false,
+        "error": {
+          "code": "string",
+          "message": "string",
+          "field": "optional string",
+          "request_id": "string"
+        }
+      }
+    },
+    "contracts": {
+      "maxDailyBookings": 6,
+      "leadTimeMinutes": 120,
+      "slotIntervalMinutes": 30,
+      "supportedServiceTypes": [
+        "free-15-min-call",
+        "prenatal-consult",
+        "birth-planning",
+        "postpartum-consult"
+      ],
+      "channels": ["email", "sms"],
+      "notificationRemindersHours": [24, 1],
+      "notificationProviders": {
+        "email": "resend (or local dev simulation when APP_ENV=development/test)",
+        "sms": "twilio via TWILIO_* environment variables"
+      },
+      "emailTemplates": {
+        "requiredTokens": [
+          "booking_id",
+          "starts_at",
+          "timezone",
+          "reference_code"
+        ],
+        "requiredKinds": ["confirm", "reminder_24h", "reminder_1h", "cancel", "reschedule"]
+      },
+      "smsTemplates": {
+        "requiredTokens": ["booking_id", "starts_at", "timezone", "reference_code"],
+        "maxLengthWarning": 160
+      },
+      "uiContracts": {
+        "bookingProgressStepCount": 3,
+        "minTouchTarget": 44,
+        "requiredEntryPoints": ["/book"],
+        "manageRoute": "/book/manage/{bookingId}?token={token}"
+      }
+    },
+    "security": {
+      "rateLimitPerMinute": 30,
+      "idempotency": true,
+      "tokenBasedManage": true,
+      "csrf": "route-level CSRF not implemented yet"
+    },
+    "scenarios": [
+      {
+        "id": "F01",
+        "name": "availability: missing timezone fails 422",
+        "method": "GET",
+        "path": "/availability?service_type=free-15-min-call&date=2026-08-01",
+        "expect": { "status": 422, "errorCode": "validation_failed" }
+      },
+      {
+        "id": "F02",
+        "name": "availability: supports timezone conversion labels",
+        "method": "GET",
+        "path": "/availability?service_type=prenatal-consult&timezone=America/Toronto&date=2026-08-01",
+        "expect": { "status": 200, "hasSlots": true }
+      },
+      {
+        "id": "F03",
+        "name": "booking:create requires valid payload",
+        "method": "POST",
+        "path": "",
+        "body": { "service_type": "prenatal-consult", "client_name": "A" },
+        "expect": { "status": 422 }
+      },
+      {
+        "id": "F04",
+        "name": "booking:create invalid json returns invalid_json",
+        "method": "POST",
+        "body": "{not-json",
+        "contentType": "application/json",
+        "expect": { "status": 400, "errorCode": "invalid_json" }
+      },
+      {
+        "id": "F05",
+        "name": "manage endpoint requires token",
+        "method": "GET",
+        "pathTemplate": "/{bookingId}/manage",
+        "query": {},
+        "expect": { "status": 422, "errorCode": "validation_error" }
+      },
+      {
+        "id": "F06",
+        "name": "booking:confirm requires token",
+        "method": "POST",
+        "pathTemplate": "/{bookingId}/confirm",
+        "body": {},
+        "expect": { "status": 422, "errorCode": "validation_error" }
+      },
+      {
+        "id": "F07",
+        "name": "booking:cancel requires token",
+        "method": "POST",
+        "pathTemplate": "/{bookingId}/cancel",
+        "body": {},
+        "expect": { "status": 422, "errorCode": "validation_error" }
+      },
+      {
+        "id": "F07b",
+        "name": "booking:cancel invalid JSON",
+        "method": "POST",
+        "pathTemplate": "/{bookingId}/cancel",
+        "body": "{not-json",
+        "contentType": "application/json",
+        "expect": { "status": 400, "errorCode": "invalid_json" }
+      },
+      {
+        "id": "F08",
+        "name": "booking:outside_business_hours",
+        "method": "POST",
+        "path": "",
+        "expect": { "status": 422, "errorCode": "outside_business_hours" }
+      },
+      {
+        "id": "F09",
+        "name": "booking:past_time_rejected",
+        "method": "POST",
+        "path": "",
+        "futureDate": false,
+        "expect": { "status": [400, 409], "errorCode": "invalid_time" }
+      },
+      {
+        "id": "F10",
+        "name": "booking:idempotency_same_key_behaviour",
+        "method": "POST",
+        "path": "",
+        "idempotencyKey": "shared-key-123",
+        "expect": { "status": [201, 200] }
+      },
+      {
+        "id": "F11",
+        "name": "ui:homepage must keep booking route entrypoints",
+        "method": "UI",
+        "expect": { "path": "/", "mustContainHref": "/book" }
+      },
+      {
+        "id": "F12",
+        "name": "ui:booking step transitions",
+        "method": "UI",
+        "path": "/book",
+        "expect": { "steps": ["Time", "Information", "Confirmed"] }
+      },
+      {
+        "id": "F13",
+        "name": "notification email template includes stable subject per kind",
+        "method": "NOTIFICATION_TEMPLATE",
+        "expect": { "hasSubjects": true }
+      },
+      {
+        "id": "F14",
+        "name": "notification sms payload is transport-safe",
+        "method": "NOTIFICATION_TEMPLATE",
+        "expect": { "hasSmsText": true, "requiresRecipient": true }
+      },
+      {
+        "id": "F15",
+        "name": "homepage exposes /book entrypoint",
+        "method": "UI",
+        "expect": { "path": "/", "mustContainHref": "/book" }
+      },
+      {
+        "id": "F16",
+        "name": "cron endpoint requires auth",
+        "method": "API",
+        "path": "/api/bookings/cron",
+        "expect": { "status": 403, "errorCode": "forbidden" }
+      },
+      {
+        "id": "F17",
+        "name": "production secrets are documented and externally injectable",
+        "method": "ENV",
+        "expect": {
+          "requiredSecrets": ["APP_SHARED_SECRET", "DATABASE_URL", "APP_URL"],
+          "optionalSecrets": ["CRON_SECRET", "RESEND_API_KEY", "TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN", "TWILIO_FROM"]
+        }
+      }
+    ]
+  }
+}

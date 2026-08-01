@@ -1,0 +1,124 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum BookingStatus {
+  pending_confirmation
+  confirmed
+  completed
+  cancelled
+}
+
+enum ChannelPreference {
+  email
+  sms
+}
+
+enum NotificationChannel {
+  email
+  sms
+}
+
+enum NotificationKind {
+  confirm
+  reminder_24h
+  reminder_1h
+  cancel
+  reschedule
+}
+
+enum OutboxStatus {
+  pending
+  retry
+  sent
+  dead
+}
+
+model Booking {
+  id                String              @id @default(uuid())
+  referenceCode     String              @unique
+  serviceType       String
+  clientName        String
+  clientEmail       String
+  clientPhoneE164   String?
+  timezone          String
+  status            BookingStatus       @default(pending_confirmation)
+  startAtUtc        DateTime
+  endAtUtc          DateTime
+  notes             String?
+  channelPreference ChannelPreference   @default(email)
+  tokenSeed         String
+  cancellationReason String?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+
+  notifications     BookingNotificationOutbox[]
+  events            BookingEvent[]
+  idempotencies     BookingIdempotency[]
+
+  @@index([startAtUtc])
+  @@index([status])
+  @@index([clientEmail])
+}
+
+model BookingIdempotency {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  payloadHash String
+  bookingId   String
+  booking     Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+model BookingNotificationOutbox {
+  id               String            @id @default(uuid())
+  booking          Booking           @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  bookingId        String
+  kind             NotificationKind
+  channel          NotificationChannel
+  status           OutboxStatus      @default(pending)
+  payload          Json
+  attemptCount     Int               @default(0)
+  maxAttempts      Int               @default(5)
+  nextAttemptAt    DateTime
+  sentAt           DateTime?
+  providerMessageId String?
+  lastError        String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  @@index([status, nextAttemptAt])
+}
+
+model BookingEvent {
+  id             String   @id @default(uuid())
+  booking        Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  bookingId      String
+  event          String
+  actorType      String
+  actorIdentifier String?
+  ipAddress      String?
+  requestId      String?
+  meta           Json?
+  createdAt      DateTime @default(now())
+}
+
+model AvailabilityBlock {
+  id          String   @id @default(uuid())
+  type        String
+  dayOfWeek   Int?
+  date        DateTime?
+  startMinutes Int
+  endMinutes  Int
+  timezone    String
+  isRecurring Boolean  @default(false)
+  notes       String?
+  createdAt   DateTime @default(now())
+}
