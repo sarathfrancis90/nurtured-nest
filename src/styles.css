@@ -214,6 +214,10 @@ a {
     display: none;
   }
 
+  .page-shell > main {
+    padding-bottom: calc(5rem + env(safe-area-inset-bottom));
+  }
+
   .mobile-nav {
     padding-bottom: env(safe-area-inset-bottom);
     position: fixed;
