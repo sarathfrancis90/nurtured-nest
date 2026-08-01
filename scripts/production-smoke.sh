@@ -45,6 +45,7 @@ if [ -n "${CRON_SECRET:-}" ]; then
 fi
 
 echo "[production-smoke] Running route/contract smoke set against deployed app"
+npx playwright install chromium >/dev/null
 npm run qa:smoke
 
 echo "[production-smoke] Production smoke checks passed."

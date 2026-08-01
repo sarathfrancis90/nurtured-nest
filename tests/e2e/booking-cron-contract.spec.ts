@@ -9,11 +9,12 @@ test('Cron endpoint rejects unauthenticated calls', async ({ request }) => {
   expect(body.error.code).toBe('forbidden');
 });
 
-test('Cron endpoint allows Vercel cron invocation header', async ({ request }) => {
+test('Cron endpoint allows the configured scheduler credential', async ({ request }) => {
+  const cronSecret = process.env.CRON_SECRET;
   const response = await request.post('/api/bookings/cron', {
-    headers: {
-      'x-vercel-cron': '1',
-    },
+    headers: cronSecret
+      ? { authorization: `Bearer ${cronSecret}` }
+      : { 'x-vercel-cron': '1' },
   });
 
   expect(response.status()).toBe(200);
