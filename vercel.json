@@ -1,7 +1,7 @@
 {
   "buildCommand": "npm run build",
   "framework": "nextjs",
-  "cleanUrls": true,
+  "cleanUrls": false,
   "crons": [
     {
       "path": "/api/bookings/cron",
