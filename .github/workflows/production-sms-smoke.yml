@@ -1,0 +1,40 @@
+name: Production SMS provider smoke
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sms-provider:
+    runs-on: ubuntu-latest
+    env:
+      TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+      TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+      TWILIO_FROM: ${{ secrets.TWILIO_FROM }}
+      TWILIO_TEST_TO: ${{ secrets.TWILIO_TEST_TO }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install application dependencies
+        run: npm ci
+
+      - name: Send one authorized SMS smoke message
+        run: |
+          set -euo pipefail
+          output="$(node scripts/notify-live-audit.cjs)"
+          printf '%s\n' "$output"
+          case "$output" in
+            *"sms send accepted"*) ;;
+            *)
+              echo "SMS provider smoke did not receive an accepted message response"
+              exit 1
+              ;;
+          esac
