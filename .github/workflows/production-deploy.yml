@@ -97,6 +97,11 @@ jobs:
             DATABASE_URL="${DATABASE_URL/6543/5432}"
           fi
           export DATABASE_URL
+          migration_table="$(psql "$DATABASE_URL" -Atqc "SELECT to_regclass('public._prisma_migrations');")"
+          if [[ -z "$migration_table" || "$migration_table" == "null" ]]; then
+            npx prisma db execute --file prisma/migrations/20260731120000_init/migration.sql
+            npx prisma migrate resolve --applied 20260731120000_init
+          fi
           timeout 180s npx prisma migrate deploy
 
       - name: Synchronize Vercel production environment
