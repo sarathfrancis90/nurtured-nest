@@ -83,7 +83,7 @@ export default function ManageBookingPage() {
   };
 
   return (
-    <main style={{ maxWidth: 900, width: 'calc(100% - 20px)', margin: '0 auto', padding: '1rem' }}>
+    <main className="booking-flow" style={{ maxWidth: 900, width: 'calc(100% - 20px)', margin: '0 auto', padding: '1rem' }}>
       <section className="surface-card asymmetric-shape" style={{ padding: '1rem', display: 'grid', gap: '0.9rem' }}>
         <h1 style={{ margin: 0 }}>Manage booking</h1>
         <p style={{ margin: 0, color: 'var(--on-surface-variant)' }}>Manage your consultation securely with a one-time token.</p>

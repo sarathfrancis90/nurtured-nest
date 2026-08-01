@@ -17,7 +17,7 @@ export default function ThankYouPage() {
   }, []);
 
   return (
-    <main style={{ maxWidth: 880, margin: '0 auto', padding: '1rem' }}>
+    <main className="booking-flow" style={{ maxWidth: 880, margin: '0 auto', padding: '1rem' }}>
       <section className="surface-card asymmetric-shape" style={{ padding: '1.2rem', display: 'grid', gap: '0.75rem' }}>
         <h1 style={{ margin: 0 }}>Thank you for booking</h1>
         <p style={{ margin: 0 }}>Your request was recorded successfully.</p>

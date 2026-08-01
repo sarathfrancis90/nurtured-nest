@@ -218,6 +218,14 @@ a {
     padding-bottom: calc(5rem + env(safe-area-inset-bottom));
   }
 
+  .page-shell:has(.booking-flow) > main {
+    padding-bottom: 0;
+  }
+
+  .page-shell:has(.booking-flow) .mobile-nav {
+    display: none;
+  }
+
   .mobile-nav {
     padding-bottom: env(safe-area-inset-bottom);
     position: fixed;

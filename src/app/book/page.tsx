@@ -205,7 +205,7 @@ export default function BookingPage() {
   }
 
   return (
-    <main style={{ maxWidth: 900, width: 'calc(100% - 20px)', margin: '0 auto', padding: '1rem' }}>
+    <main className="booking-flow" style={{ maxWidth: 900, width: 'calc(100% - 20px)', margin: '0 auto', padding: '1rem' }}>
       <div className="surface-card asymmetric-shape" style={{ marginTop: '1rem', padding: '1rem', display: 'grid', gap: '1rem' }}>
         <nav aria-label="Booking progress" className="text-xs" style={{ display: 'flex', gap: '0.35rem', color: 'var(--on-surface-variant)' }}>
           <span>Step 1: Time</span>
