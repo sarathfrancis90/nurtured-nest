@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nurtured Nest — Compassionate Doula Support</title>
+  <meta name="description" content="Compassionate Doula support for Pregnancy and Birth. Helping you feel calm, confident, and supported every step of the way.">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://nurturednest.ca/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Nurtured Nest — Compassionate Doula Support">
+  <meta property="og:description" content="Compassionate Doula support for Pregnancy and Birth. Helping you feel calm, confident, and supported every step of the way.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nurturednest.ca/">
+  <meta property="og:image" content="https://nurturednest.ca/icons/og-image.png">
+  <meta property="og:site_name" content="Nurtured Nest">
+  <meta property="og:locale" content="en_CA">
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nurtured Nest — Compassionate Doula Support">
+  <meta name="twitter:description" content="Compassionate Doula support for Pregnancy and Birth. Helping you feel calm, confident, and supported every step of the way.">
+  <meta name="twitter:image" content="https://nurturednest.ca/icons/og-image.png">
+
+  <!-- Additional SEO -->
+  <meta name="geo.region" content="CA-ON">
+  <meta name="geo.placename" content="Toronto">
+
+  <!-- Favicon & App Icons -->
+  <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#3e6a7e">
+
+  <!-- Google Fonts: Noto Serif + Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Material Symbols Outlined -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap">
+
+  <!-- Compiled Tailwind CSS -->
+  <link rel="stylesheet" href="/css/styles.css">
+
+  <!-- Schema.org Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LocalBusiness",
+        "@id": "https://nurturednest.ca/#business",
+        "name": "Nurtured Nest",
+        "description": "Professional birth doula services in Toronto, Canada. Prenatal guidance, continuous labour support, and postpartum care for the modern birth journey.",
+        "url": "https://nurturednest.ca",
+        "telephone": "+1-226-975-9978",
+        "email": "nurturednestca@gmail.com",
+        "image": "https://nurturednest.ca/icons/og-image.png",
+        "logo": "https://nurturednest.ca/icons/logo.svg",
+        "priceRange": "$$",
+        "areaServed": {
+          "@type": "GeoCircle",
+          "geoMidpoint": {
+            "@type": "GeoCoordinates",
+            "latitude": 43.6532,
+            "longitude": -79.3832
+          },
+          "geoRadius": "50000"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Toronto",
+          "addressRegion": "ON",
+          "addressCountry": "CA"
+        },
+        "founder": {
+          "@type": "Person",
+          "@id": "https://nurturednest.ca/#founder",
+          "name": "Varshitha",
+          "jobTitle": "Professional Birth Doula",
+          "description": "Certified birth doula with training in evidence-based doula care and maternal wellness, serving families across the Greater Toronto Area.",
+          "worksFor": { "@id": "https://nurturednest.ca/#business" }
+        },
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Doula Services",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Prenatal Guidance",
+                "description": "Comprehensive prenatal preparation including birth plan strategy, nutritional counseling, and movement & breathwork through every trimester."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Labour Doula Care",
+                "description": "Continuous compassionate presence through labour with partner coaching, pain management tools, and advocacy for birth preferences."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Postpartum Support",
+                "description": "Nurturing postpartum care including newborn care education, lactation support, and emotional recovery for new parents."
+              }
+            }
+          ]
+        },
+        "sameAs": []
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://nurturednest.ca/#website",
+        "url": "https://nurturednest.ca",
+        "name": "Nurtured Nest",
+        "description": "Compassionate Doula support for Pregnancy and Birth",
+        "publisher": { "@id": "https://nurturednest.ca/#business" }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Analytics: Cloudflare Web Analytics (free, cookie-free, auto-injected via Cloudflare DNS) -->
+</head>
+
+<body class="bg-surface text-on-surface font-label antialiased pb-20 md:pb-0">
+
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- Cursor Warm Glow (desktop only, added via JS) -->
+  <div class="cursor-glow hidden lg:block" id="cursor-glow" aria-hidden="true"></div>
+
+  <!-- Skip to content (WCAG 2.1 AA) -->
+  <a href="#main-content"
+     class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:bg-primary focus:text-on-primary focus:px-4 focus:py-2 focus:rounded-full focus:font-label focus:text-sm focus:font-semibold">
+    Skip to content
+  </a>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       NAVIGATION
+       Desktop: fixed glassmorphic top bar
+       Mobile: floating liquid-glass bottom bar (md:hidden)
+  ════════════════════════════════════════════════════════════════════════ -->
+  <header role="banner">
+
+    <!-- Desktop Top Nav -->
+    <nav id="desktop-nav" aria-label="Main navigation"
+         class="glass-nav fixed top-0 left-0 right-0 z-50 shadow-sm">
+      <div class="max-w-7xl mx-auto px-4 md:px-12 py-0 flex justify-between items-center">
+
+        <!-- Logo + Brand Name -->
+        <a href="#home" class="flex items-center gap-2 md:gap-3" aria-label="Nurtured Nest — home">
+          <img src="/icons/logo.svg"
+               alt=""
+               width="140" height="140"
+               class="w-16 h-16 md:w-[140px] md:h-[140px] object-contain md:-my-4">
+          <span class="font-brand text-2xl md:text-4xl text-on-surface">Nurtured Nest</span>
+        </a>
+
+        <!-- Nav Links (hidden on mobile) -->
+        <ul class="hidden md:flex items-center space-x-10" role="list">
+          <li>
+            <a href="#home"
+               class="nav-link font-label text-sm font-medium tracking-wide text-on-surface-variant hover:text-primary transition-colors"
+               data-section="home">Home</a>
+          </li>
+          <li>
+            <a href="#services"
+               class="nav-link font-label text-sm font-medium tracking-wide text-on-surface-variant hover:text-primary transition-colors"
+               data-section="services">Services</a>
+          </li>
+          <li>
+            <a href="#about"
+               class="nav-link font-label text-sm font-medium tracking-wide text-on-surface-variant hover:text-primary transition-colors"
+               data-section="about">About</a>
+          </li>
+          <li>
+            <a href="#contact"
+               class="nav-link font-label text-sm font-medium tracking-wide text-on-surface-variant hover:text-primary transition-colors"
+               data-section="contact">Contact</a>
+          </li>
+        </ul>
+
+        <!-- Desktop CTA (hidden on mobile — mobile has bottom nav Book button) -->
+        <a href="#contact"
+           class="hidden md:inline-block cta-shimmer text-on-primary font-label text-sm font-semibold px-8 py-3 rounded-full ambient-shadow hover:scale-[1.02] transition-transform">
+          Contact &amp; Appointments
+        </a>
+
+      </div>
+    </nav>
+
+    <!-- Mobile Bottom Nav (hidden at md+) -->
+    <nav id="mobile-nav" aria-label="Mobile navigation"
+         class="liquid-glass-nav fixed bottom-0 left-0 right-0 z-50 h-16 flex items-center justify-around px-2 md:hidden"
+         style="padding-bottom: env(safe-area-inset-bottom)">
+
+      <!-- Home -->
+      <a href="#home"
+         class="mobile-nav-item flex flex-col items-center justify-center gap-0.5 text-on-surface-variant active:scale-95 transition-transform duration-100"
+         data-section="home">
+        <span class="material-symbols-outlined text-xl" aria-hidden="true">home</span>
+        <span class="font-label text-[10px] font-medium tracking-wide">Home</span>
+      </a>
+
+      <!-- Services -->
+      <a href="#services"
+         class="mobile-nav-item flex flex-col items-center justify-center gap-0.5 text-on-surface-variant active:scale-95 transition-transform duration-100"
+         data-section="services">
+        <span class="material-symbols-outlined text-xl" aria-hidden="true">self_improvement</span>
+        <span class="font-label text-[10px] font-medium tracking-wide">Services</span>
+      </a>
+
+      <!-- About -->
+      <a href="#about"
+         class="mobile-nav-item flex flex-col items-center justify-center gap-0.5 text-on-surface-variant active:scale-95 transition-transform duration-100"
+         data-section="about">
+        <span class="material-symbols-outlined text-xl" aria-hidden="true">person</span>
+        <span class="font-label text-[10px] font-medium tracking-wide">About</span>
+      </a>
+
+      <!-- Contact -->
+      <a href="#contact"
+         class="mobile-nav-item flex flex-col items-center justify-center gap-0.5 text-on-surface-variant active:scale-95 transition-transform duration-100"
+         data-section="contact">
+        <span class="material-symbols-outlined text-xl" aria-hidden="true">mail</span>
+        <span class="font-label text-[10px] font-medium tracking-wide">Contact</span>
+      </a>
+
+      <!-- Book CTA -->
+      <a href="#contact"
+         class="signature-gradient text-on-primary font-label text-xs font-bold px-5 py-2 rounded-full">
+        Contact
+      </a>
+
+    </nav>
+
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       MAIN CONTENT
+  ════════════════════════════════════════════════════════════════════════ -->
+  <main id="main-content">
+
+    <!-- Hero ──────────────────────────────────────────────────────────────── -->
+    <section id="home"
+             aria-label="Hero — Where birth feels safe"
+             class="bg-surface bg-watercolor min-h-screen flex items-center pt-20 pb-12 relative overflow-hidden">
+      <!-- Botanical leaf decoration — bottom left -->
+      <img src="/images/leaf-deco.webp" alt="" aria-hidden="true"
+           class="leaf-deco bottom-0 left-0 w-48 lg:w-64 leaf-deco-flip mix-blend-multiply" loading="lazy">
+
+      <div class="max-w-7xl mx-auto px-6 lg:px-12 w-full relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+          <!-- Text content -->
+          <div class="lg:col-span-6 z-10">
+
+            <p class="font-label text-xs font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-6">
+              Professional Birth Doula &middot; Toronto, Canada
+            </p>
+
+            <h1 class="font-headline text-4xl md:text-6xl lg:text-8xl leading-tight text-on-surface mb-8">
+              <span class="hero-word">Compassionate</span> <span class="hero-word">Doula</span><br>
+              <em class="text-primary italic"><span class="hero-word">Support for Your Journey</span></em>
+            </h1>
+
+            <p class="font-label text-lg leading-relaxed text-on-surface-variant mb-10 max-w-md hero-fade hero-fade-1">
+              Compassionate Doula support for Pregnancy and Birth. Helping you feel calm, confident, and supported every step of the way.
+            </p>
+
+            <div class="flex flex-wrap items-center gap-6 hero-fade hero-fade-2">
+              <a href="#contact"
+                 class="cta-shimmer text-on-primary font-label text-base font-semibold px-10 py-4 rounded-full ambient-shadow hover:scale-[1.02] transition-transform">
+                Book a free 15mins Consultation call
+              </a>
+              <a href="#services"
+                 class="font-label text-primary font-bold flex items-center gap-2 group">
+                View Services
+                <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" aria-hidden="true">arrow_forward</span>
+              </a>
+            </div>
+
+          </div>
+
+          <!-- Hero image -->
+          <div class="lg:col-span-6 relative h-[350px] lg:h-[800px]">
+            <div class="absolute inset-0 asymmetric-shape overflow-hidden ambient-shadow hero-fade hero-fade-3">
+              <img src="/images/hero.webp"
+                   alt="Serene nursery interior bathed in morning light"
+                   width="1200" height="800"
+                   class="w-full h-full object-cover">
+            </div>
+            <!-- Decorative ambient blobs — breathing animation -->
+            <div class="absolute -bottom-10 -left-10 w-48 h-48 bg-primary-container/30 rounded-full blur-3xl pointer-events-none breathe"
+                 aria-hidden="true"></div>
+            <div class="absolute top-20 -right-16 w-32 h-32 bg-tertiary-container/20 rounded-full blur-3xl pointer-events-none breathe"
+                 style="animation-delay: 2s;"
+                 aria-hidden="true"></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Wave: Hero → Services -->
+    <div aria-hidden="true" class="bg-surface">
+      <svg class="wave-divider" viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0 40C240 80 480 0 720 40C960 80 1200 0 1440 40V80H0V40Z" fill="#fdf9f1"/>
+      </svg>
+    </div>
+
+    <!-- Services ──────────────────────────────────────────────────────────── -->
+    <section id="services"
+             aria-label="Core Offerings — services"
+             class="bg-surface-container-low py-32">
+      <div class="max-w-7xl mx-auto px-6 lg:px-12">
+
+        <!-- Section header -->
+        <div class="text-center mb-20 section-reveal">
+          <p class="font-label text-xs font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-4">
+            Services for every stage
+          </p>
+          <h2 class="font-headline text-4xl lg:text-5xl text-on-surface">
+            Your Doula Care Options
+          </h2>
+        </div>
+
+        <!-- Cards grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 lg:gap-10 items-start">
+
+          <!-- Card 1 -->
+          <article class="bg-surface-container-lowest asymmetric-shape p-8 ambient-shadow service-card">
+            <h3 class="font-headline text-2xl text-on-surface mb-4">Full Doula Support</h3>
+            <p class="font-label text-on-surface-variant leading-relaxed mb-6">
+              Complete emotional, informational, and practical care from pregnancy through postpartum.
+            </p>
+            <ul class="space-y-3" role="list">
+              <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0" aria-hidden="true"></span>
+                Prenatal support
+              </li>
+              <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0" aria-hidden="true"></span>
+                Birth planning
+              </li>
+              <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0" aria-hidden="true"></span>
+                Emotional prep
+              </li>
+              <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0" aria-hidden="true"></span>
+                Partner guidance
+              </li>
+              <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0" aria-hidden="true"></span>
+                Birth support
+              </li>
+              <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0" aria-hidden="true"></span>
+                On-call support
+              </li>
+              <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0" aria-hidden="true"></span>
+                Continuous labor guidance
+              </li>
+              <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0" aria-hidden="true"></span>
+                Postpartum care
+              </li>
+              <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0" aria-hidden="true"></span>
+                Recovery support
+              </li>
+              <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0" aria-hidden="true"></span>
+                Newborn guidance
+              </li>
+            </ul>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="bg-primary-container/10 asymmetric-shape p-8 ambient-shadow service-card">
+            <h3 class="font-headline text-2xl text-on-surface mb-4">Birth Support Only</h3>
+            <p class="font-label text-on-surface-variant leading-relaxed mb-6">
+              Focused support during labor and directly after.
+            </p>
+            <ul class="space-y-3" role="list">
+              <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                <span class="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" aria-hidden="true"></span>
+                On-call support
+              </li>
+              <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                <span class="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" aria-hidden="true"></span>
+                Continuous labor guidance
+              </li>
+              <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                <span class="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" aria-hidden="true"></span>
+                2 hours support after birth
+              </li>
+            </ul>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="bg-surface-container-lowest asymmetric-shape p-8 ambient-shadow service-card">
+            <h3 class="font-headline text-2xl text-on-surface mb-4">Prenatal Support Only</h3>
+            <p class="font-label text-on-surface-variant leading-relaxed mb-6">
+              Preparation-focused support before arrival.
+            </p>
+            <ul class="space-y-3" role="list">
+              <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                <span class="w-1.5 h-1.5 rounded-full bg-tertiary shrink-0" aria-hidden="true"></span>
+                Birth planning
+              </li>
+              <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                <span class="w-1.5 h-1.5 rounded-full bg-tertiary shrink-0" aria-hidden="true"></span>
+                Emotional prep
+              </li>
+              <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                <span class="w-1.5 h-1.5 rounded-full bg-tertiary shrink-0" aria-hidden="true"></span>
+                Partner guidance
+              </li>
+              <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                <span class="w-1.5 h-1.5 rounded-full bg-tertiary shrink-0" aria-hidden="true"></span>
+                Comfort measures
+              </li>
+              <li class="flex items-center gap-3 font-label text-sm text-on-surface/80">
+                <span class="w-1.5 h-1.5 rounded-full bg-tertiary shrink-0" aria-hidden="true"></span>
+                Breathing techniques
+              </li>
+            </ul>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="bg-surface-container-lowest asymmetric-shape p-8 ambient-shadow service-card">
+            <h3 class="font-headline text-2xl text-on-surface mb-4">Belly Binding (Postpartum)</h3>
+            <p class="font-label text-on-surface-variant leading-relaxed">
+              Think of belly binding as a warm, supportive hug for your core after birth. This gentle postpartum practice helps support your muscles, improve alignment, and bring comfort as your body recovers. It is a simple yet powerful way to feel more held, supported, and put-together in early postpartum days.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Hire a Doula -->
+    <section id="why-hire" class="bg-surface py-24">
+      <div class="max-w-7xl mx-auto px-6 lg:px-12">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          <div class="section-reveal">
+            <p class="font-label text-xs font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-4">
+              Why Hire a Doula?
+            </p>
+            <h2 class="font-headline text-4xl lg:text-5xl text-on-surface mb-8">
+              Birth is a life-changing experience, and having the right support can make all the difference.
+            </h2>
+            <p class="font-label text-lg leading-relaxed text-on-surface-variant">
+              A doula provides continuous emotional, physical, and informational support throughout your journey—
+              helping you feel confident, informed, and cared for every step of the way.
+            </p>
+          </div>
+          <div class="section-reveal" data-delay="1">
+            <ul class="space-y-4 text-base">
+              <li class="flex items-start gap-3 font-label text-on-surface-variant">
+                <span class="w-2.5 h-2.5 rounded-full bg-primary mt-2 shrink-0" aria-hidden="true"></span>
+                Continuous care before, during, and after birth.
+              </li>
+              <li class="flex items-start gap-3 font-label text-on-surface-variant">
+                <span class="w-2.5 h-2.5 rounded-full bg-primary mt-2 shrink-0" aria-hidden="true"></span>
+                Calm, compassionate guidance to help you feel grounded and supported.
+              </li>
+              <li class="flex items-start gap-3 font-label text-on-surface-variant">
+                <span class="w-2.5 h-2.5 rounded-full bg-primary mt-2 shrink-0" aria-hidden="true"></span>
+                Breathing techniques, positioning, comfort measures, and hands-on support.
+              </li>
+              <li class="flex items-start gap-3 font-label text-on-surface-variant">
+                <span class="w-2.5 h-2.5 rounded-full bg-primary mt-2 shrink-0" aria-hidden="true"></span>
+                Advocacy and informed decision-making so you can choose confidently.
+              </li>
+              <li class="flex items-start gap-3 font-label text-on-surface-variant">
+                <span class="w-2.5 h-2.5 rounded-full bg-primary mt-2 shrink-0" aria-hidden="true"></span>
+                Partner support so they feel included, confident, and involved.
+              </li>
+              <li class="flex items-start gap-3 font-label text-on-surface-variant">
+                <span class="w-2.5 h-2.5 rounded-full bg-primary mt-2 shrink-0" aria-hidden="true"></span>
+                Personalized care tailored to your birth preferences.
+              </li>
+            </ul>
+            <p class="font-label text-sm font-bold tracking-wide text-on-surface/80 mt-8 uppercase">
+              You deserve to feel supported—whether you choose unmedicated birth, epidural, or cesarean.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wave: Services → About -->
+    <div aria-hidden="true" class="bg-surface-container-low">
+      <svg class="wave-divider" viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0 20C360 70 720 0 1080 40C1260 55 1380 30 1440 20V80H0V20Z" fill="#fffbff"/>
+      </svg>
+    </div>
+
+    <!-- About ─────────────────────────────────────────────────────────────── -->
+    <section id="about"
+             aria-label="Meet Your Guide — about Varshitha"
+             class="bg-surface py-32 relative overflow-hidden">
+
+      <!-- Botanical leaf decoration — top right -->
+      <img src="/images/leaf-deco.webp" alt="" aria-hidden="true"
+           class="leaf-deco top-0 right-0 w-40 lg:w-56 mix-blend-multiply" loading="lazy">
+
+      <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+
+          <!-- Image column with floating quote card -->
+          <div class="relative section-reveal">
+
+            <!-- Portrait -->
+            <div class="asymmetric-shape overflow-hidden ambient-shadow h-[350px] md:h-[450px] lg:h-[600px] w-full">
+              <!-- Replace /images/about.webp with Varshitha's portrait before launch -->
+              <img src="/images/about.webp"
+                   alt="Varshitha, founder of Nurtured Nest, in a warm professional setting"
+                   width="800" height="1000"
+                   loading="lazy"
+                   class="w-full h-full object-cover object-top">
+            </div>
+
+            <!-- Quote card: inline on mobile, floating absolute on desktop (lg+) -->
+            <blockquote class="relative mt-6 lg:absolute lg:mt-0 lg:-top-10 lg:-right-10
+                               bg-surface-container p-8
+                               asymmetric-shape lg:rounded-xl
+                               ambient-shadow lg:max-w-[240px] quote-float">
+              <p class="font-headline italic text-xl text-primary mb-3">
+                "Your story is the foundation of our care."
+              </p>
+              <footer class="font-label text-xs uppercase tracking-widest text-on-surface-variant">
+                &mdash; Varshitha
+              </footer>
+            </blockquote>
+
+          </div>
+
+          <!-- Text content -->
+          <div class="section-reveal" data-delay="1">
+
+            <p class="font-label text-primary font-bold uppercase tracking-widest text-sm mb-6">
+              Meet Your Doula
+            </p>
+
+            <h2 class="font-headline text-3xl md:text-5xl lg:text-6xl leading-tight text-on-surface mb-8">
+              Hi, I&apos;m Varshitha
+            </h2>
+
+            <p class="font-label text-lg leading-relaxed text-on-surface-variant mb-6">
+              A certified doula based in Ontario, supporting families through pregnancy, birth, and postpartum with calm, compassionate, and informed care.
+            </p>
+            <p class="font-label text-lg leading-relaxed text-on-surface-variant">
+              My journey into doula work began with a deep curiosity and respect for childbirth and the emotional strength it takes to bring new life into the world. Over time, that curiosity became a calling—supporting families in one of the most transformative moments of their lives.
+            </p>
+            <p class="font-label text-lg leading-relaxed text-on-surface-variant mt-6">
+              I am certified in Birth Doula and completed training with DONA International, including breastfeeding and belly binding. I continue learning with evidence-based practices so every family receives thoughtful, informed support.
+            </p>
+            <p class="font-label text-lg leading-relaxed text-on-surface-variant mt-6">
+              As a doula, my approach is simple: calm presence, emotional reassurance, and practical support so you feel informed and empowered in your choices.
+            </p>
+            <p class="font-label text-lg leading-relaxed text-on-surface-variant mt-6">
+              Beyond doula work, I am a part-time art teacher. I am someone who values family time, art, cooking, and music, which keeps me grounded and connected to the heart of what I do: supporting people with care and empathy.
+            </p>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Wave: About → Resources -->
+    <div aria-hidden="true" class="bg-surface">
+      <svg class="wave-divider" viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0 60C180 20 360 70 540 40C720 10 900 60 1080 30C1260 0 1380 50 1440 30V80H0V60Z" fill="#f7f3eb"/>
+      </svg>
+    </div>
+
+    <section id="resources"
+             aria-label="Free resources for families"
+             class="bg-surface py-24">
+      <div class="max-w-7xl mx-auto px-6 lg:px-12">
+        <p class="font-label text-xs font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-4">
+          Free Resources
+        </p>
+        <h2 class="font-headline text-4xl text-on-surface mb-8">Helpful downloads</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <a href="/resources/birth-plan-template.pdf"
+             class="bg-surface-container-lowest asymmetric-shape ambient-shadow p-6 border border-outline-variant/10 hover:border-primary transition-colors">
+            <p class="font-headline text-2xl text-on-surface mb-2">Birth Plan Template</p>
+            <p class="font-label text-on-surface-variant">Free Download</p>
+          </a>
+          <a href="/resources/hospital-bag-checklist.pdf"
+             class="bg-surface-container-lowest asymmetric-shape ambient-shadow p-6 border border-outline-variant/10 hover:border-primary transition-colors">
+            <p class="font-headline text-2xl text-on-surface mb-2">Hospital Bag Checklist</p>
+            <p class="font-label text-on-surface-variant">Free Download</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQs -->
+    <section id="faqs"
+             aria-label="Frequently asked questions"
+             class="bg-surface-container-low py-24">
+      <div class="max-w-7xl mx-auto px-6 lg:px-12">
+        <p class="font-label text-xs font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-4">
+          FAQs
+        </p>
+        <h2 class="font-headline text-4xl text-on-surface mb-8">Questions you may have</h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <details class="bg-surface-container-lowest asymmetric-shape p-6 ambient-shadow">
+            <summary class="font-label text-lg font-semibold text-on-surface cursor-pointer">What does a doula do?</summary>
+            <p class="font-label text-base text-on-surface-variant mt-4">
+              A doula provides continuous emotional, physical, and informational support during pregnancy, labour, and postpartum. I help you feel informed, reassured, and supported in your choices while offering comfort techniques, encouragement, and guidance throughout your journey.
+            </p>
+          </details>
+          <details class="bg-surface-container-lowest asymmetric-shape p-6 ambient-shadow">
+            <summary class="font-label text-lg font-semibold text-on-surface cursor-pointer">When should you hire a doula?</summary>
+            <p class="font-label text-base text-on-surface-variant mt-4">
+              You can hire a doula at any stage of pregnancy—even early on or later in the third trimester. The earlier we connect, the more time we have to build trust and prepare together. It&apos;s never too late to reach out.
+            </p>
+          </details>
+          <details class="bg-surface-container-lowest asymmetric-shape p-6 ambient-shadow">
+            <summary class="font-label text-lg font-semibold text-on-surface cursor-pointer">Do you replace my doctor or midwife?</summary>
+            <p class="font-label text-base text-on-surface-variant mt-4">
+              No. I work alongside your medical team as a non-medical support person to help you feel emotionally and physically supported throughout your care.
+            </p>
+          </details>
+          <details class="bg-surface-container-lowest asymmetric-shape p-6 ambient-shadow">
+            <summary class="font-label text-lg font-semibold text-on-surface cursor-pointer">What is the difference between a doula and a midwife?</summary>
+            <p class="font-label text-base text-on-surface-variant mt-4">
+              A midwife provides medical care and monitors your and your baby&apos;s wellbeing. A doula focuses on emotional support, comfort techniques, and advocacy so you feel supported alongside your medical team.
+            </p>
+          </details>
+          <details class="bg-surface-container-lowest asymmetric-shape p-6 ambient-shadow">
+            <summary class="font-label text-lg font-semibold text-on-surface cursor-pointer">Do you help me medically?</summary>
+            <p class="font-label text-base text-on-surface-variant mt-4">
+              No. Doulas do not provide medical care, diagnosis, or procedures. I offer comfort measures, education, and emotional support.
+            </p>
+          </details>
+          <details class="bg-surface-container-lowest asymmetric-shape p-6 ambient-shadow">
+            <summary class="font-label text-lg font-semibold text-on-surface cursor-pointer">Can my partner still be involved if I have a doula?</summary>
+            <p class="font-label text-base text-on-surface-variant mt-4">
+              Absolutely. I support both you and your partner by helping them feel confident and involved while giving them space to rest and participate naturally.
+            </p>
+          </details>
+          <details class="bg-surface-container-lowest asymmetric-shape p-6 ambient-shadow">
+            <summary class="font-label text-lg font-semibold text-on-surface cursor-pointer">What kind of support do you provide during labour?</summary>
+            <p class="font-label text-base text-on-surface-variant mt-4">
+              During labour, I offer continuous support such as breathing techniques, positioning suggestions, massage, reassurance, and emotional grounding through each stage.
+            </p>
+          </details>
+          <details class="bg-surface-container-lowest asymmetric-shape p-6 ambient-shadow">
+            <summary class="font-label text-lg font-semibold text-on-surface cursor-pointer">Do you offer postpartum support?</summary>
+            <p class="font-label text-base text-on-surface-variant mt-4">
+              Yes. I provide postpartum support to help with emotional well-being, newborn care guidance, feeding support, and settling into your new routine.
+            </p>
+          </details>
+          <details class="bg-surface-container-lowest asymmetric-shape p-6 ambient-shadow">
+            <summary class="font-label text-lg font-semibold text-on-surface cursor-pointer">How much does a doula cost?</summary>
+            <p class="font-label text-base text-on-surface-variant mt-4">
+              My services vary by support level. Please contact me for package options that best fit your family.
+            </p>
+          </details>
+          <details class="bg-surface-container-lowest asymmetric-shape p-6 ambient-shadow">
+            <summary class="font-label text-lg font-semibold text-on-surface cursor-pointer">I&apos;m feeling anxious about birth—can a doula help?</summary>
+            <p class="font-label text-base text-on-surface-variant mt-4">
+              Yes. I provide reassurance, education, and emotional support to help you feel prepared, calm, and confident as birth approaches.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section id="testimonials"
+             aria-label="Client testimonials"
+             class="bg-surface py-24">
+      <div class="max-w-7xl mx-auto px-6 lg:px-12">
+        <p class="font-label text-xs font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-4">
+          Testimonials
+        </p>
+        <h2 class="font-headline text-4xl text-on-surface mb-8">Client voices</h2>
+        <p class="font-label text-base text-on-surface-variant mb-10">I am working on gathering testimonials. For launch, text quote cards are the best format.</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <blockquote class="bg-surface-container-lowest asymmetric-shape ambient-shadow p-8 section-reveal">
+            <p class="font-headline italic text-xl text-on-surface mb-6">“A calming, reassuring support from pregnancy to postpartum. We felt seen, informed, and truly cared for.”</p>
+            <p class="font-label text-sm uppercase tracking-widest text-on-surface-variant">— Client Story 1</p>
+          </blockquote>
+          <blockquote class="bg-surface-container-lowest asymmetric-shape ambient-shadow p-8 section-reveal" data-delay="1">
+            <p class="font-headline italic text-xl text-on-surface mb-6">“Her labor support kept us grounded during every contraction. The birth plan and partner guidance made our day feel much less overwhelming.”</p>
+            <p class="font-label text-sm uppercase tracking-widest text-on-surface-variant">— Client Story 2</p>
+          </blockquote>
+          <blockquote class="bg-surface-container-lowest asymmetric-shape ambient-shadow p-8 section-reveal" data-delay="2">
+            <p class="font-headline italic text-xl text-on-surface mb-6">“From planning to postpartum comfort, the support was consistent and practical. Highly recommend for first-time parents.”</p>
+            <p class="font-label text-sm uppercase tracking-widest text-on-surface-variant">— Client Story 3</p>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wave: About → Contact -->
+    <div aria-hidden="true" class="bg-surface">
+      <svg class="wave-divider" viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0 60C180 20 360 70 540 40C720 10 900 60 1080 30C1260 0 1380 50 1440 30V80H0V60Z" fill="#f7f3eb"/>
+      </svg>
+    </div>
+
+    <!-- Contact ───────────────────────────────────────────────────────────── -->
+    <section id="contact"
+             aria-label="Contact — let's connect"
+             class="bg-surface-container py-32 relative overflow-hidden">
+      <div class="max-w-7xl mx-auto px-6 lg:px-12">
+
+        <!-- Decorative background blobs -->
+      <div class="absolute top-10 left-10 w-64 h-64 bg-primary-container/15 rounded-full blur-3xl pointer-events-none breathe" aria-hidden="true"></div>
+      <div class="absolute bottom-10 right-10 w-48 h-48 bg-tertiary-container/15 rounded-full blur-3xl pointer-events-none breathe" style="animation-delay: 3s;" aria-hidden="true"></div>
+
+      <div class="bg-surface-container-lowest asymmetric-shape p-8 lg:p-16 ambient-shadow max-w-2xl mx-auto section-reveal relative z-10">
+          <div class="max-w-xl mx-auto text-center">
+
+            <p class="font-label text-xs font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-4">
+              Get In Touch
+            </p>
+
+            <h2 class="font-headline text-4xl lg:text-5xl text-on-surface mb-6">
+              Let's connect.
+            </h2>
+
+            <p class="font-label text-lg text-on-surface-variant leading-relaxed mb-12">
+              Every sanctuary starts with a conversation. We offer a complimentary 15-minute consultation call to explore how we can support your journey.
+            </p>
+
+            <!-- Contact info rows -->
+            <div class="space-y-6 mb-12 text-left">
+
+              <!-- Phone -->
+              <a href="tel:+12269759978"
+                 class="flex items-start gap-6 hover:opacity-80 transition-opacity">
+                <div class="w-12 h-12 rounded-full bg-primary-container/40 flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-primary" aria-hidden="true">phone</span>
+                </div>
+                <div>
+                  <p class="font-label text-xs uppercase tracking-widest font-bold text-primary mb-1">Call Us</p>
+                  <p class="font-headline text-xl text-on-surface">226-975-9978</p>
+                </div>
+              </a>
+
+              <!-- Email -->
+              <a href="mailto:nurturednestca@gmail.com"
+                 class="flex items-start gap-6 hover:opacity-80 transition-opacity">
+                <div class="w-12 h-12 rounded-full bg-primary-container/40 flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-primary" aria-hidden="true">mail</span>
+                </div>
+                <div>
+                  <p class="font-label text-xs uppercase tracking-widest font-bold text-primary mb-1">Email Us</p>
+                  <p class="font-headline text-xl text-on-surface">nurturednestca@gmail.com</p>
+                </div>
+              </a>
+
+            </div>
+
+            <!-- Calendly CTA -->
+            <div class="flex flex-col items-center gap-3">
+              <!-- TODO: Replace href="#" with real Calendly URL before launch -->
+              <a href="#"
+                 class="cta-shimmer text-on-primary font-label text-lg font-semibold px-12 py-5 rounded-full ambient-shadow hover:scale-[1.02] transition-transform">
+                Book a Free 15mins Consultation Call
+              </a>
+              <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant font-medium">
+                Contact &amp; Appointments
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════════════════════════════════ -->
+  <footer role="contentinfo" aria-label="Site footer"
+          class="bg-surface-container-highest border-t border-outline-variant/5 relative overflow-hidden">
+
+    <!-- Botanical leaf decoration — bottom right (hidden on mobile to avoid white edge) -->
+    <img src="/images/leaf-deco.webp" alt="" aria-hidden="true"
+         class="leaf-deco bottom-0 right-0 w-32 lg:w-48 opacity-15 mix-blend-multiply hidden md:block" loading="lazy"
+         style="transform: scaleX(-1) scaleY(-1);">
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 py-16 relative z-10">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+
+        <!-- Logo + brand name -->
+        <a href="#home" class="flex items-center gap-3" aria-label="Nurtured Nest — back to top">
+          <img src="/icons/logo.svg"
+               alt=""
+               width="72" height="72"
+               class="w-[72px] h-[72px] object-contain -my-2">
+          <span class="font-brand text-3xl text-on-surface">Nurtured Nest</span>
+        </a>
+
+        <!-- Copyright -->
+        <!-- TODO: Update year each year -->
+        <p class="font-label text-xs text-on-surface-variant">
+          &copy; 2026 Nurtured Nest Care
+        </p>
+
+        <!-- Legal links — separate pages, not modals -->
+        <nav aria-label="Legal navigation">
+          <ul class="flex items-center gap-8" role="list">
+            <li>
+              <a href="/privacy"
+                 class="font-label text-xs uppercase tracking-widest font-bold text-on-surface-variant hover:text-primary transition-colors">
+                Privacy Policy
+              </a>
+            </li>
+            <li>
+              <a href="/terms"
+                 class="font-label text-xs uppercase tracking-widest font-bold text-on-surface-variant hover:text-primary transition-colors">
+                Terms of Care
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="/js/main.js"></script>
+
+</body>
+</html>
