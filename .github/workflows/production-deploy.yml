@@ -122,7 +122,9 @@ jobs:
 
           if [[ "$DATABASE_URL" != postgresql://* && "$DATABASE_URL" != postgres://* ]]; then
             encoded_password="$(node -e 'console.log(encodeURIComponent(process.argv[1]))' "$DATABASE_URL")"
-            DATABASE_URL="postgresql://postgres.elrwbfichkuxppviblty:${encoded_password}@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require"
+            DATABASE_URL="postgresql://postgres.elrwbfichkuxppviblty:${encoded_password}@aws-1-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true&connection_limit=1&sslmode=require"
+          elif [[ "$DATABASE_URL" == *":6543/"* && "$DATABASE_URL" != *"pgbouncer=true"* ]]; then
+            DATABASE_URL="${DATABASE_URL}&pgbouncer=true&connection_limit=1"
           fi
 
           sync_env() {
