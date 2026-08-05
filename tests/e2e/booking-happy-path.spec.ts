@@ -45,20 +45,22 @@ test('Booking happy path works with stable UX and clear success state', async ({
   });
 
   await page.goto('/book');
-  await expect(page.getByRole('heading', { name: /book your appointment/i })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /book a calm, connected conversation/i })).toBeVisible();
 
-  await expect(page.getByRole('button', { name: /continue/i })).toBeEnabled();
+  await expect(page.getByRole('button', { name: /continue to your details/i })).toBeEnabled();
   await page.locator('button.slot-button').click();
-  await page.getByRole('button', { name: /continue/i }).click();
+  await page.getByRole('button', { name: /continue to your details/i }).click();
 
   await page.getByLabel(/full name/i).fill('Jordan Rivera');
   await page.getByRole('textbox', { name: /email address/i }).fill('jordan.rivera@example.com');
   await page.getByLabel(/phone/i).fill('+14165551234');
+  await page.getByRole('button', { name: /review booking/i }).click();
+  await expect(page.getByRole('heading', { name: /review before you confirm/i })).toBeVisible();
   await page.getByRole('button', { name: /confirm booking/i }).click();
 
-  await expect(page.getByRole('heading', { name: /booking submitted/i })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /booking request received/i })).toBeVisible();
   await expect(page.getByText(/nn-20260729-test/i)).toBeVisible();
-  await expect(page.getByRole('link', { name: /open manage page/i })).toHaveAttribute(
+  await expect(page.getByRole('link', { name: /open my booking page/i })).toHaveAttribute(
     'href',
     '/book/manage/00000000-0000-4000-8000-000000000001?token=manage-token-happy-flow'
   );

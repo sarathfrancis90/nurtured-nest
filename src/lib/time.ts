@@ -38,6 +38,11 @@ export function isTimeZoneValid(timezone: string): boolean {
   }
 }
 
+export function isIsoDateValid(dateIso: string): boolean {
+  const parsed = DateTime.fromISO(dateIso, { zone: 'UTC' });
+  return parsed.isValid && parsed.toISODate() === dateIso;
+}
+
 export function minutesFromTime(time: string): number {
   const [hour, minute] = time.split(':').map((value) => Number(value));
   return hour * 60 + minute;

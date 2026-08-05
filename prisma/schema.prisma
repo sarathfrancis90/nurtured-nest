@@ -25,11 +25,13 @@ enum NotificationChannel {
 }
 
 enum NotificationKind {
+  request_received
   confirm
   reminder_24h
   reminder_1h
   cancel
   reschedule
+  manage_access
 }
 
 enum OutboxStatus {
@@ -121,4 +123,16 @@ model AvailabilityBlock {
   isRecurring Boolean  @default(false)
   notes       String?
   createdAt   DateTime @default(now())
+}
+
+model BookingLookupChallenge {
+  id            String   @id @default(uuid())
+  lookupKeyHash String
+  codeHash      String
+  expiresAt     DateTime
+  attemptCount  Int      @default(0)
+  consumedAt    DateTime?
+  createdAt     DateTime @default(now())
+
+  @@index([lookupKeyHash, expiresAt])
 }

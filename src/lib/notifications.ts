@@ -3,7 +3,7 @@ import { prisma } from './db';
 import { MAX_RETRY_COUNT } from './booking-config';
 import { buildEmailNotificationContent, buildSmsNotificationText, notificationSubjectFor } from './notifications/templates';
 
-export type NotificationKind = 'confirm' | 'reminder_24h' | 'reminder_1h' | 'cancel' | 'reschedule';
+export type NotificationKind = 'request_received' | 'confirm' | 'reminder_24h' | 'reminder_1h' | 'cancel' | 'reschedule' | 'manage_access';
 export type NotificationChannel = 'email' | 'sms';
 
 export type BookingReminderContext = {
@@ -25,6 +25,7 @@ export type BookingNotificationPayload = {
   channel: NotificationChannel;
   timezone: string;
   start_at_utc: string;
+  verification_code?: string;
 };
 
 function getPreferredReminderChannel(preferred: NotificationChannel, phone?: string | null): NotificationChannel {
@@ -74,7 +75,7 @@ export function scheduleForBooking(booking: BookingReminderContext, channelPrefe
     when: Date;
   }> = [
     {
-      kind: 'confirm',
+      kind: 'request_received',
       channel: confirmChannel,
       when: now,
     },

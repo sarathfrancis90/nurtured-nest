@@ -52,6 +52,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Link href="#contact" style={{ textDecoration: 'none', fontWeight: 600, color: 'var(--on-surface)' }}>
                   Contact
                 </Link>
+                <Link href="/book/lookup" style={{ textDecoration: 'none', fontWeight: 600, color: 'var(--on-surface)' }}>
+                  Manage
+                </Link>
                 <Link
                   className="primary-btn signature-gradient"
                   href="/book"
@@ -73,6 +76,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <a href="#contact" className="text-xs" style={{ textDecoration: 'none', color: 'var(--on-surface)' }}>
               Contact
             </a>
+            <Link href="/book/lookup" className="text-xs" style={{ textDecoration: 'none', color: 'var(--on-surface)' }}>
+              Manage
+            </Link>
             <Link href="/book" className="primary-btn signature-gradient" style={{ padding: '0.35rem 0.75rem', borderRadius: 999, fontSize: '0.72rem', color: '#fff', textDecoration: 'none', fontWeight: 700 }}>
               Book
             </Link>

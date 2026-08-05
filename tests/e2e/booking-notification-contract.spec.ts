@@ -14,7 +14,7 @@ test('Email subject and body templates include required fields for all kinds', (
     service_type: 'free-15-min-call',
   };
 
-  for (const kind of ['confirm', 'reminder_24h', 'reminder_1h', 'cancel', 'reschedule'] as NotificationKind[]) {
+  for (const kind of ['request_received', 'confirm', 'reminder_24h', 'reminder_1h', 'cancel', 'reschedule', 'manage_access'] as NotificationKind[]) {
     const payload = { ...input, kind };
     const email = buildEmailNotificationContent(payload);
     const sms = buildSmsNotificationText(payload);
@@ -29,6 +29,23 @@ test('Email subject and body templates include required fields for all kinds', (
     expect(sms).toContain(payload.timezone);
     expect(sms).toContain(payload.reference_code);
   }
+});
+
+test('Lookup access templates include the one-time code without exposing recipient data', () => {
+  const payload = {
+    booking_id: 'NN-TEST-0002',
+    kind: 'manage_access' as NotificationKind,
+    recipient: 'client@example.com',
+    channel: 'email' as const,
+    timezone: 'America/Toronto',
+    start_at_utc: new Date('2026-07-30T12:00:00.000Z').toISOString(),
+    verification_code: '123456',
+  };
+  const email = buildEmailNotificationContent(payload);
+  const sms = buildSmsNotificationText(payload);
+  expect(email.html).toContain('123456');
+  expect(email.html).not.toContain(payload.recipient);
+  expect(sms).toContain('123456');
 });
 
 test('SMS texts stay transport-safe and include required tokens', () => {
