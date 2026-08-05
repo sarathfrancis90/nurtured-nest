@@ -6,6 +6,10 @@ import '../styles.css';
 export const metadata: Metadata = {
   title: 'Nurtured Nest - Pregnancy & Birth Doula Support',
   description: 'In-app consultation booking for Prenatal, Birth, and Postpartum support.',
+  icons: {
+    icon: '/icons/favicon.ico',
+    apple: '/icons/apple-touch-icon.png',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

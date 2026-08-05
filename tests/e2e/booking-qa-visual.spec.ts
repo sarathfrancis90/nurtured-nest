@@ -106,6 +106,17 @@ for (const viewport of viewports) {
   test.describe(`Adversarial visual QA - ${viewport.key}`, () => {
     test.use({ viewport: { width: viewport.width, height: viewport.height } });
 
+    test('Booking entry hydrates without browser errors', async ({ page }) => {
+      const browserErrors: string[] = [];
+      page.on('console', (message) => {
+        if (message.type() === 'error') browserErrors.push(message.text());
+      });
+      page.on('pageerror', (error) => browserErrors.push(error.message));
+      await page.goto('/book', { waitUntil: 'networkidle' });
+      await expect(page.getByRole('heading', { name: /book a calm, connected conversation/i })).toBeVisible();
+      expect(browserErrors).toEqual([]);
+    });
+
     test('Booking screen keeps spacing, contrast, and control accessibility', async ({ page }) => {
       await seedBookingStubs(page);
       await page.goto('/book');

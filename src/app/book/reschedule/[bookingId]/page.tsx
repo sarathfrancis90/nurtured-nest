@@ -17,9 +17,8 @@ function displayDate(iso: string, timezone: string) {
 export default function RescheduleBookingPage() {
   const { bookingId } = useParams<{ bookingId: string }>();
   const token = useSearchParams().get('token') ?? '';
-  const initialTimezone = useMemo(() => Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Toronto', []);
   const [booking, setBooking] = useState<Booking | null>(null);
-  const [timezone, setTimezone] = useState(initialTimezone);
+  const [timezone, setTimezone] = useState('America/Toronto');
   const [date, setDate] = useState(() => new Date().toISOString().slice(0, 10));
   const [slots, setSlots] = useState<Slot[]>([]);
   const [selectedSlot, setSelectedSlot] = useState('');
@@ -28,6 +27,11 @@ export default function RescheduleBookingPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [complete, setComplete] = useState(false);
+
+  useEffect(() => {
+    const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (browserTimezone) setTimezone(browserTimezone);
+  }, []);
 
   useEffect(() => {
     if (!bookingId || !token) {
