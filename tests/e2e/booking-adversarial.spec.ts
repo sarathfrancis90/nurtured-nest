@@ -41,7 +41,7 @@ test('No slot selected blocks progression and shows inline guidance', async ({ p
   await expect(continueBtn).toBeDisabled();
   await continueBtn.click({ force: true });
 
-  await expect(page.getByText(/no slots available for this day/i)).toBeVisible();
+  await expect(page.getByText(/no openings on this day/i)).toBeVisible();
 });
 
 test('Validation errors are strict and block posting malformed client details', async ({ page }) => {
@@ -62,14 +62,14 @@ test('Validation errors are strict and block posting malformed client details', 
   await page.goto('/book');
 
   await page.locator('button.slot-button').click();
-  await page.getByRole('button', { name: /continue/i }).click();
+  await page.getByRole('button', { name: /continue to your details/i }).click();
 
   await page.getByLabel(/full name/i).fill('J');
   await page.getByRole('textbox', { name: /email address/i }).fill('bad-email');
-  await page.getByRole('button', { name: /confirm booking/i }).click();
+  await page.getByRole('button', { name: /review booking/i }).click();
 
-  await expect(page.getByText(/name must be at least 2 characters/i)).toBeVisible();
-  await expect(page.getByText(/please provide a valid email/i)).toBeVisible();
+  await expect(page.getByText(/please enter your full name/i)).toBeVisible();
+  await expect(page.getByText(/please provide a valid email address/i)).toBeVisible();
   expect(createCalls).toBe(0);
 });
 
@@ -107,13 +107,14 @@ test('Rapid confirm-click is collapsed to one network call', async ({ page }) =>
   await page.goto('/book');
 
   await page.locator('button.slot-button').click();
-  await page.getByRole('button', { name: /continue/i }).click();
+  await page.getByRole('button', { name: /continue to your details/i }).click();
   await page.getByLabel(/full name/i).fill('Ava Johnson');
   await page.getByRole('textbox', { name: /email address/i }).fill('ava.johnson@example.com');
 
+  await page.getByRole('button', { name: /review booking/i }).click();
   await page.getByRole('button', { name: /confirm booking/i }).dblclick();
 
-  await expect(page.getByRole('heading', { name: /booking submitted/i })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /booking request received/i })).toBeVisible();
   expect(createCalls).toBe(1);
 });
 
@@ -155,27 +156,28 @@ test('Server-side idempotency and conflict response stays actionable', async ({ 
   await page.goto('/book');
 
   await page.locator('button.slot-button').click();
-  await page.getByRole('button', { name: /continue/i }).click();
+  await page.getByRole('button', { name: /continue to your details/i }).click();
   await page.getByLabel(/full name/i).fill('Mona Lee');
   await page.getByRole('textbox', { name: /email address/i }).fill('mona.lee@example.com');
 
-  const confirm = page.getByRole('button', { name: /confirm booking/i });
-  await confirm.click();
-  await expect(page.getByRole('heading', { name: /booking submitted/i })).toBeVisible();
+  await page.getByRole('button', { name: /review booking/i }).click();
+  await page.getByRole('button', { name: /confirm booking/i }).click();
+  await expect(page.getByRole('heading', { name: /booking request received/i })).toBeVisible();
 
   await page.goto('/book');
   await page.locator('button.slot-button').nth(0).click();
-  await page.getByRole('button', { name: /continue/i }).click();
+  await page.getByRole('button', { name: /continue to your details/i }).click();
   await page.getByLabel(/full name/i).fill('Mona Lee');
   await page.getByRole('textbox', { name: /email address/i }).fill('mona.lee@example.com');
-  await confirm.click();
+  await page.getByRole('button', { name: /review booking/i }).click();
+  await page.getByRole('button', { name: /confirm booking/i }).click();
 
   await expect(page.getByText(/request duplicated by same key/i)).toBeVisible();
 });
 
 test('Manage route rejects malformed IDs and missing tokens with controlled messaging', async ({ page }) => {
   await page.goto('/book/manage/invalid-id');
-  await expect(page.getByText(/missing booking token/i)).toBeVisible();
+  await expect(page.getByText(/secure booking link is incomplete/i)).toBeVisible();
 
   await page.route('**/api/bookings/*/manage?*', (route) => {
     route.fulfill({

@@ -110,11 +110,11 @@ for (const viewport of viewports) {
       await seedBookingStubs(page);
       await page.goto('/book');
 
-      await expect(page.getByRole('heading', { name: /book your appointment/i })).toBeVisible();
+      await expect(page.getByRole('heading', { name: /book a calm, connected conversation/i })).toBeVisible();
       await expect(page.locator('button.primary-btn.signature-gradient').first()).toBeVisible();
 
-      const primaryButton = page.getByRole('button', { name: /continue/i }).first();
-      await expect(primaryButton).toHaveCSS('min-height', '44px');
+      const primaryButton = page.getByRole('button', { name: /continue to your details/i }).first();
+      await expect(primaryButton).toHaveCSS('min-height', '48px');
       await expect(primaryButton).toHaveCSS('border-radius', '999px');
 
       const cardWidth = await page.locator('.surface-card.asymmetric-shape').first().evaluate((node) => node.getBoundingClientRect().width);
@@ -137,17 +137,18 @@ for (const viewport of viewports) {
       await page.goto('/book');
 
       await page.locator('button.slot-button').first().click();
-      await page.getByRole('button', { name: /continue/i }).click();
+      await page.getByRole('button', { name: /continue to your details/i }).click();
 
-      await expect(page.getByRole('heading', { name: /your information/i })).toBeVisible();
+      await expect(page.getByRole('heading', { name: /tell us how to reach you/i })).toBeVisible();
 
   await page.getByLabel(/full name/i).fill('QA Vision');
   await page.getByRole('textbox', { name: /email address/i }).fill('vision.qa@example.com');
+      await page.getByRole('button', { name: /review booking/i }).click();
+      await expect(page.getByRole('heading', { name: /review before you confirm/i })).toBeVisible();
       await page.getByRole('button', { name: /confirm booking/i }).click();
 
-      await expect(page.getByRole('heading', { name: /booking submitted/i })).toBeVisible();
-      const body = await page.textContent('body');
-      expect(body?.includes('Reference: NN-20260729-QA')).toBe(true);
+      await expect(page.getByRole('heading', { name: /booking request received/i })).toBeVisible();
+      await expect(page.getByText(/NN-20260729-QA/i)).toBeVisible();
 
       const successImage = await page.screenshot({ fullPage: true });
       await test.info().attach(`booking-success-${viewport.key}`, {
@@ -160,12 +161,12 @@ for (const viewport of viewports) {
       await seedBookingStubs(page);
       await page.goto('/book/manage/00000000-0000-4000-8000-00000000ad91?token=manage-qa');
 
-      await expect(page.getByRole('heading', { name: /manage booking/i })).toBeVisible();
+      await expect(page.getByRole('heading', { name: /manage your appointment/i })).toBeVisible();
       await page.keyboard.press('Tab');
       await page.keyboard.press('Tab');
 
-      const confirm = page.getByRole('button', { name: /confirm booking from secure token link/i });
-      const cancel = page.getByRole('button', { name: /cancel booking from secure token link/i });
+      const confirm = page.getByRole('button', { name: /confirm appointment/i });
+      const cancel = page.getByRole('button', { name: /cancel appointment/i });
       await expect(confirm).toBeVisible();
       await expect(cancel).toBeVisible();
 
@@ -173,8 +174,8 @@ for (const viewport of viewports) {
       const bookingFlowHidesMobileNav = page.url().includes('/book/');
       expect(mobileNavVisible).toBe(viewport.hasMobileNav && !bookingFlowHidesMobileNav);
 
-      await page.getByRole('button', { name: /confirm booking from secure token link/i }).click();
-      await expect(page.getByText(/status:\s*confirmed/i)).toBeVisible();
+      await page.getByRole('button', { name: /confirm appointment/i }).click();
+      await expect(page.getByText(/appointment is confirmed/i)).toBeVisible();
 
       const manageImage = await page.screenshot({ fullPage: true });
       await test.info().attach(`manage-page-${viewport.key}`, {

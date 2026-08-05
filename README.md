@@ -20,7 +20,9 @@ This repository implements a free-tier-friendly in-app booking workflow with:
   - Success view with manage link
 - `/book/manage/[bookingId]`
   - Loads booking by token
-  - Confirm and cancel actions using token-protected endpoints
+  - Confirm, cancel, and reschedule actions using token-protected endpoints
+- `/book/lookup`
+  - Finds bookings by email or phone after one-time verification
 
 ### API routes
 - `GET /api/bookings/availability`
@@ -32,6 +34,11 @@ This repository implements a free-tier-friendly in-app booking workflow with:
 - `POST /api/bookings/{bookingId}/confirm`
 - `POST /api/bookings/{bookingId}/cancel`
   - both require valid token and return status updates
+- `POST /api/bookings/{bookingId}/reschedule`
+- `POST /api/bookings/lookup`
+  - creates a short-lived verification challenge without exposing booking tokens
+- `POST /api/bookings/lookup/verify`
+  - consumes the challenge and returns secure manage links
 - `POST /api/bookings/cron`
   - processes notification outbox
 
@@ -42,6 +49,7 @@ This repository implements a free-tier-friendly in-app booking workflow with:
   - `BookingNotificationOutbox`
   - `BookingEvent`
   - `AvailabilityBlock`
+  - `BookingLookupChallenge`
 
 ## 2) Feasibility on free tiers (with low booking volume)
 
@@ -70,8 +78,7 @@ Open-source primitives used:
 2. Generate Prisma client
    - `npm run db:generate`
 3. Apply schema
-   - `npx prisma db push --accept-data-loss`
-   - or migrations if required in production
+   - `npx prisma migrate deploy` (use committed migrations in production)
 4. Start app
    - `npm run dev`
 5. Deploy notification worker
@@ -208,10 +215,11 @@ For deployment validation:
 ### 7.1 Zero-friction deployment flow
 
 - Local/pre-merge:
-  - Push to any branch or open PR: `.github/workflows/production-deploy.yml` runs lint/typecheck/build/e2e/contract/db-gate jobs using containerized Postgres.
+  - Push to any branch or open PR: `.github/workflows/production-deploy.yml` runs typecheck/build/e2e/contract gates against the committed Prisma migration chain using containerized Postgres.
 - Merge to `main`:
   - Same quality gates run.
-  - Vercel deployment runs in production.
+  - A separate `migrate` job applies versioned Prisma migrations to production before deployment.
+  - Vercel deployment runs only after quality and database migration jobs pass.
   - Post-deploy smoke checks run automatically via `scripts/production-smoke.sh`.
 
 ### 7.2 Required GitHub repository secrets
@@ -220,6 +228,10 @@ For deployment validation:
 - `VERCEL_ORG_ID`
 - `VERCEL_PROJECT_ID`
 - `CRON_SECRET` (recommended; required for strict cron auth in production)
+- `APP_SHARED_SECRET`
+- `DATABASE_URL`
+- `RESEND_API_KEY`
+- `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_FROM` (optional while SMS is disabled)
 
 ### 7.3 Production URL smoke validation
 

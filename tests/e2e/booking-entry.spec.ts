@@ -15,11 +15,11 @@ test('Original static homepage remains unchanged and booking flow is a separate 
   await expect(bookingCta).toBeVisible();
   await bookingCta.click();
   await expect(page).toHaveURL(/\/book$/);
-  await expect(page.getByRole('heading', { name: /book your appointment/i })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /book a calm, connected conversation/i })).toBeVisible();
 
   await page.goto('/book');
   await expect(page).toHaveURL(/\/book$/);
-  await expect(page.getByRole('heading', { name: /book your appointment/i })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /book a calm, connected conversation/i })).toBeVisible();
 });
 
 test('Mobile homepage booking CTA routes to the booking page', async ({ page }) => {
@@ -31,5 +31,5 @@ test('Mobile homepage booking CTA routes to the booking page', async ({ page }) 
   await expect(mobileBookingCta).toBeVisible();
   await mobileBookingCta.click();
   await expect(page).toHaveURL(/\/book$/);
-  await expect(page.getByRole('heading', { name: /book your appointment/i })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /book a calm, connected conversation/i })).toBeVisible();
 });

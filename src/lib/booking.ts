@@ -1,13 +1,16 @@
-import { createHash, createHmac, randomBytes } from 'crypto';
+import { createHash, createHmac, randomBytes, randomInt, randomUUID, timingSafeEqual } from 'crypto';
 import { DateTime } from 'luxon';
-import { BookingStatus } from '@prisma/client';
-import { env } from './env';
+import { BookingStatus, Prisma } from '@prisma/client';
+import { env, getSmsConfig } from './env';
 import { prisma } from './db';
 import {
   availabilityQuerySchema,
   bookingCreateSchema,
   bookingIdParamSchema,
+  bookingLookupSchema,
+  bookingLookupVerifySchema,
   bookingManageBodySchema,
+  bookingRescheduleSchema,
   manageQuerySchema,
   type ServiceType,
 } from './validation';
@@ -31,6 +34,38 @@ type RequestLike = {
 
 const requestWindow = new Map<string, { count: number; firstSeen: number }>();
 const secret = env.APP_SHARED_SECRET;
+
+function appError(message: string, code: string, status: number) {
+  const error = new Error(message) as Error & { code: string; status: number };
+  error.code = code;
+  error.status = status;
+  return error;
+}
+
+function isSlotConflictError(error: unknown): boolean {
+  if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    return error.code === 'P2004' && String(error.meta?.constraint ?? '').includes('booking_active_time_no_overlap');
+  }
+
+  // Prisma surfaces PostgreSQL EXCLUDE violations as an unknown connector
+  // error in some client versions, so preserve the database constraint signal.
+  const message = String(error);
+  return message.includes('booking_active_time_no_overlap') || message.includes('23P01');
+}
+
+function lookupKeyHash(value: string): string {
+  return createHmac('sha256', secret).update(`booking-lookup:${value}`).digest('hex');
+}
+
+function lookupCodeHash(challengeId: string, code: string): string {
+  return createHmac('sha256', secret).update(`booking-lookup-code:${challengeId}:${code}`).digest('hex');
+}
+
+function safeEqualHex(left: string, right: string): boolean {
+  const leftBuffer = Buffer.from(left, 'hex');
+  const rightBuffer = Buffer.from(right, 'hex');
+  return leftBuffer.length === rightBuffer.length && timingSafeEqual(leftBuffer, rightBuffer);
+}
 
 export function assertRateLimit(subject: string, limit: number, windowMs = 60_000): void {
   const now = Date.now();
@@ -287,6 +322,25 @@ export async function createBooking(payload: unknown, context?: RequestLike) {
     };
   }
 
+  const duplicateContact = await prisma.booking.findFirst({
+    where: {
+      status: { in: ['pending_confirmation', 'confirmed'] },
+      startAtUtc: { gte: startUtc, lt: endUtc },
+      OR: [
+        { clientEmail: { equals: valid.client_email, mode: 'insensitive' } },
+        ...(valid.client_phone_e164 ? [{ clientPhoneE164: valid.client_phone_e164 }] : []),
+      ],
+    },
+    select: { id: true, referenceCode: true },
+  });
+
+  if (duplicateContact) {
+    const err = new Error('You already have an active booking on this day. Use your booking page to review or reschedule it.') as Error & { code: string; status: number };
+    err.code = 'duplicate_booking';
+    err.status = 409;
+    throw err;
+  }
+
   const existingForDay = await prisma.booking.count({
     where: {
       status: {
@@ -327,6 +381,40 @@ export async function createBooking(payload: unknown, context?: RequestLike) {
   const requestedPayloadHash = payloadHash(valid);
 
   return prisma.$transaction(async (tx) => {
+    const lockKeys = [
+      `booking-day:${valid.timezone}:${localDate}`,
+      `booking-email:${valid.client_email}`,
+      ...(valid.client_phone_e164 ? [`booking-phone:${valid.client_phone_e164}`] : []),
+    ].sort();
+    for (const lockKey of lockKeys) {
+      await tx.$executeRaw(Prisma.sql`SELECT pg_advisory_xact_lock(hashtextextended(${lockKey}, 0))`);
+    }
+
+    const duplicateInsideTransaction = await tx.booking.findFirst({
+      where: {
+        status: { in: ['pending_confirmation', 'confirmed'] },
+        startAtUtc: { gte: startUtc, lt: endUtc },
+        OR: [
+          { clientEmail: { equals: valid.client_email, mode: 'insensitive' } },
+          ...(valid.client_phone_e164 ? [{ clientPhoneE164: valid.client_phone_e164 }] : []),
+        ],
+      },
+      select: { id: true },
+    });
+    if (duplicateInsideTransaction) {
+      throw appError('You already have an active booking on this day. Use your booking page to review or reschedule it.', 'duplicate_booking', 409);
+    }
+
+    const capacityInsideTransaction = await tx.booking.count({
+      where: {
+        status: { in: ['pending_confirmation', 'confirmed'] },
+        startAtUtc: { gte: startUtc, lt: endUtc },
+      },
+    });
+    if (capacityInsideTransaction >= MAX_DAILY_BOOKINGS) {
+      throw appError('Daily capacity exceeded', 'capacity_exhausted', 409);
+    }
+
     const createdBooking = await tx.booking.create({
       data: {
         referenceCode: `NN-${DateTime.now().toFormat('yyyyMMdd')}-${tokenSeed}`,
@@ -391,7 +479,12 @@ export async function createBooking(payload: unknown, context?: RequestLike) {
       confirmToken: issueToken(createdBooking.id, tokenSeed, 'confirm'),
       requestId,
     };
-  }, { maxWait: 10000, timeout: 12000 });
+  }, { maxWait: 10000, timeout: 12000 }).catch((error) => {
+    if (isSlotConflictError(error)) {
+      throw appError('Slot is no longer available', 'slot_unavailable', 409);
+    }
+    throw error;
+  });
 }
 
 export async function getBookingForManage(bookingId: string, token: string) {
@@ -451,6 +544,10 @@ export async function updateBookingStatus(bookingId: string, body: unknown, acti
       throw err;
     }
 
+    if (isPast(booking.startAtUtc)) {
+      throw appError('A booking cannot be confirmed after its start time', 'invalid_state', 409);
+    }
+
     return prisma.$transaction(async (tx) => {
       const updated = await tx.booking.update({
         where: { id: bookingId },
@@ -471,6 +568,28 @@ export async function updateBookingStatus(bookingId: string, body: unknown, acti
         },
       });
 
+      await tx.bookingNotificationOutbox.create({
+        data: {
+          bookingId,
+          kind: 'confirm',
+          channel: booking.channelPreference,
+          status: 'pending',
+          payload: {
+            booking_id: booking.id,
+            reference_code: booking.referenceCode,
+            service_type: booking.serviceType,
+            kind: 'confirm',
+            recipient: booking.channelPreference === 'sms' ? booking.clientPhoneE164 ?? booking.clientEmail : booking.clientEmail,
+            channel: booking.channelPreference,
+            timezone: booking.timezone,
+            start_at_utc: booking.startAtUtc.toISOString(),
+          },
+          nextAttemptAt: new Date(),
+          attemptCount: 0,
+          maxAttempts: 5,
+        },
+      });
+
       return updated;
     });
   }
@@ -478,6 +597,10 @@ export async function updateBookingStatus(bookingId: string, body: unknown, acti
   if (action === 'cancel') {
     if (booking.status === BookingStatus.cancelled) {
       return booking;
+    }
+
+    if (booking.status === BookingStatus.completed) {
+      throw appError('A completed booking cannot be cancelled', 'invalid_state', 409);
     }
 
     return prisma.$transaction(async (tx) => {
@@ -511,6 +634,8 @@ export async function updateBookingStatus(bookingId: string, body: unknown, acti
           status: 'pending',
           payload: {
             booking_id: booking.id,
+            reference_code: booking.referenceCode,
+            service_type: booking.serviceType,
             kind: 'cancel',
             recipient: booking.channelPreference === 'sms'
               ? booking.clientPhoneE164 ?? booking.clientEmail
@@ -533,4 +658,254 @@ export async function updateBookingStatus(bookingId: string, body: unknown, acti
   error.code = 'invalid_action';
   error.status = 400;
   throw error;
+}
+
+async function findBookingsByLookup(valid: ReturnType<typeof bookingLookupSchema.parse>) {
+  return prisma.booking.findMany({
+    where: {
+      OR: [
+        ...(valid.email ? [{ clientEmail: { equals: valid.email, mode: 'insensitive' as const } }] : []),
+        ...(valid.phone ? [{ clientPhoneE164: valid.phone }] : []),
+      ],
+    },
+    orderBy: { startAtUtc: 'desc' },
+    take: 10,
+  });
+}
+
+function formatVerifiedBooking(booking: Awaited<ReturnType<typeof findBookingsByLookup>>[number]) {
+  return {
+    booking_id: booking.id,
+    reference_code: booking.referenceCode,
+    status: booking.status,
+    service_type: booking.serviceType,
+    starts_at_utc: booking.startAtUtc,
+    local_label: formatSlotLabel(booking.startAtUtc, booking.timezone),
+    timezone: booking.timezone,
+    client_manage_url: `/book/manage/${booking.id}?token=${issueToken(booking.id, booking.tokenSeed, 'manage')}`,
+  };
+}
+
+export async function requestBookingLookup(payload: unknown, context?: RequestLike) {
+  const valid = bookingLookupSchema.parse(payload);
+  const subject = valid.email ?? valid.phone ?? 'unknown';
+  const ipAddress = context?.ipAddress ?? 'unknown';
+  assertRateLimit(`booking:lookup:${subject}`, 8);
+  assertRateLimit(`booking:lookup:ip:${ipAddress}`, 20);
+
+  const bookings = await findBookingsByLookup(valid);
+  const challengeId = randomUUID();
+  const code = String(randomInt(100000, 1000000));
+  const expiresAt = new Date(Date.now() + 10 * 60_000);
+  const lookupValue = valid.email ?? valid.phone ?? '';
+
+  await prisma.$transaction(async (tx) => {
+    await tx.bookingLookupChallenge.create({
+      data: {
+        id: challengeId,
+        lookupKeyHash: lookupKeyHash(lookupValue),
+        codeHash: lookupCodeHash(challengeId, code),
+        expiresAt,
+      },
+    });
+
+    if (!bookings.length) return;
+
+    const requestedChannel = valid.phone && !valid.email && getSmsConfig() ? 'sms' : 'email';
+    await tx.bookingNotificationOutbox.createMany({
+      data: bookings.map((booking) => {
+        const channel = requestedChannel === 'sms' && booking.clientPhoneE164 ? 'sms' : 'email';
+        return {
+          bookingId: booking.id,
+          kind: 'manage_access' as const,
+          channel,
+          status: 'pending' as const,
+          payload: {
+            booking_id: booking.id,
+            reference_code: booking.referenceCode,
+            service_type: booking.serviceType,
+            kind: 'manage_access' as const,
+            recipient: channel === 'sms' ? booking.clientPhoneE164 ?? booking.clientEmail : booking.clientEmail,
+            channel,
+            timezone: booking.timezone,
+            start_at_utc: booking.startAtUtc.toISOString(),
+            verification_code: code,
+          },
+          nextAttemptAt: new Date(),
+          attemptCount: 0,
+          maxAttempts: 5,
+        };
+      }),
+    });
+  });
+
+  return {
+    challenge_id: challengeId,
+    expires_in_seconds: 600,
+    delivery_channel: valid.phone && !valid.email && getSmsConfig() ? 'sms' : 'email',
+    ...(env.APP_ENV === 'development' || env.APP_ENV === 'test' ? { dev_code: code } : {}),
+  };
+}
+
+export async function verifyBookingLookup(payload: unknown) {
+  const parsed = bookingLookupVerifySchema.parse(payload);
+  const lookupValue = parsed.email ?? parsed.phone ?? '';
+  const challenge = await prisma.bookingLookupChallenge.findUnique({ where: { id: parsed.challenge_id } });
+
+  const invalid = () => appError('That verification code is invalid or expired', 'lookup_verification_failed', 403);
+  if (!challenge || challenge.consumedAt || challenge.expiresAt <= new Date() || challenge.attemptCount >= 5) {
+    throw invalid();
+  }
+
+  const validContact = safeEqualHex(challenge.lookupKeyHash, lookupKeyHash(lookupValue));
+  const validCode = safeEqualHex(challenge.codeHash, lookupCodeHash(challenge.id, parsed.code));
+  if (!validContact || !validCode) {
+    await prisma.bookingLookupChallenge.update({
+      where: { id: challenge.id },
+      data: { attemptCount: { increment: 1 } },
+    });
+    throw invalid();
+  }
+
+  await prisma.bookingLookupChallenge.update({ where: { id: challenge.id }, data: { consumedAt: new Date() } });
+  const bookings = await findBookingsByLookup({ email: parsed.email, phone: parsed.phone });
+  return bookings.map(formatVerifiedBooking);
+}
+
+export async function rescheduleBooking(bookingId: string, payload: unknown) {
+  const parsed = bookingRescheduleSchema.parse(payload);
+  bookingIdParamSchema.parse({ bookingId });
+  const booking = await prisma.booking.findUnique({ where: { id: bookingId } });
+
+  if (!booking) {
+    const err = new Error('Booking not found') as Error & { code: string; status: number };
+    err.code = 'not_found';
+    err.status = 404;
+    throw err;
+  }
+
+  const manageToken = issueToken(booking.id, booking.tokenSeed, 'manage');
+  const confirmToken = issueToken(booking.id, booking.tokenSeed, 'confirm');
+  if (parsed.token !== manageToken && parsed.token !== confirmToken) {
+    const err = new Error('Token invalid') as Error & { code: string; status: number };
+    err.code = 'invalid_token';
+    err.status = 403;
+    throw err;
+  }
+
+  if (booking.status === BookingStatus.cancelled || booking.status === BookingStatus.completed) {
+    const err = new Error('This booking cannot be rescheduled in its current state') as Error & { code: string; status: number };
+    err.code = 'invalid_state';
+    err.status = 409;
+    throw err;
+  }
+
+  const requestedStart = new Date(parsed.start_at_utc);
+  if (Number.isNaN(requestedStart.valueOf()) || isPast(requestedStart, LEAD_TIME_MINUTES)) {
+    const err = new Error('Time must be in the future and respect the configured lead time') as Error & { code: string; status: number };
+    err.code = 'invalid_time';
+    err.status = 400;
+    throw err;
+  }
+
+  const service = deriveServiceType(booking.serviceType as ServiceType);
+  const durationMinutes = service?.durationMinutes ?? Math.max(15, Math.round((booking.endAtUtc.getTime() - booking.startAtUtc.getTime()) / 60_000));
+  if (!isWithinBusinessHours(requestedStart, parsed.timezone, durationMinutes)) {
+    const err = new Error('Requested slot is outside operating hours') as Error & { code: string; status: number };
+    err.code = 'outside_business_hours';
+    err.status = 422;
+    throw err;
+  }
+
+  const requestedEnd = new Date(requestedStart.getTime() + durationMinutes * 60_000);
+  const targetLocalDate = DateTime.fromJSDate(requestedStart).setZone(parsed.timezone).toISODate();
+  if (!targetLocalDate) {
+    throw appError('Invalid booking date', 'invalid_time', 422);
+  }
+  const targetBounds = dayBoundsUtc(targetLocalDate, parsed.timezone);
+  const overlap = await prisma.booking.findFirst({
+    where: {
+      id: { not: booking.id },
+      status: { in: ['pending_confirmation', 'confirmed'] },
+      startAtUtc: { lt: requestedEnd },
+      endAtUtc: { gt: requestedStart },
+    },
+  });
+  if (overlap) {
+    const err = new Error('That time is no longer available') as Error & { code: string; status: number };
+    err.code = 'slot_unavailable';
+    err.status = 409;
+    throw err;
+  }
+
+  return prisma.$transaction(async (tx) => {
+    const lockKeys = [
+      `booking-day:${parsed.timezone}:${targetLocalDate}`,
+      `booking-email:${booking.clientEmail.toLowerCase()}`,
+      ...(booking.clientPhoneE164 ? [`booking-phone:${booking.clientPhoneE164}`] : []),
+    ].sort();
+    for (const lockKey of lockKeys) {
+      await tx.$executeRaw(Prisma.sql`SELECT pg_advisory_xact_lock(hashtextextended(${lockKey}, 0))`);
+    }
+
+    const duplicateOnTargetDay = await tx.booking.findFirst({
+      where: {
+        id: { not: booking.id },
+        status: { in: ['pending_confirmation', 'confirmed'] },
+        startAtUtc: { gte: targetBounds.startUtc, lt: targetBounds.endUtc },
+        OR: [
+          { clientEmail: { equals: booking.clientEmail, mode: 'insensitive' } },
+          ...(booking.clientPhoneE164 ? [{ clientPhoneE164: booking.clientPhoneE164 }] : []),
+        ],
+      },
+      select: { id: true },
+    });
+    if (duplicateOnTargetDay) {
+      throw appError('You already have an active booking on that day. Choose another date.', 'duplicate_booking', 409);
+    }
+
+    const updated = await tx.booking.update({
+      where: { id: booking.id },
+      data: { startAtUtc: requestedStart, endAtUtc: requestedEnd, timezone: parsed.timezone },
+    });
+
+    await tx.bookingEvent.create({
+      data: {
+        bookingId: booking.id,
+        event: 'booking_rescheduled',
+        actorType: 'client',
+        actorIdentifier: booking.clientEmail,
+        meta: { previousStartAtUtc: booking.startAtUtc.toISOString(), newStartAtUtc: requestedStart.toISOString() },
+      },
+    });
+
+    await tx.bookingNotificationOutbox.create({
+      data: {
+        bookingId: booking.id,
+        kind: 'reschedule',
+        channel: booking.channelPreference,
+        status: 'pending',
+        payload: {
+          booking_id: booking.id,
+          kind: 'reschedule',
+          reference_code: booking.referenceCode,
+          service_type: booking.serviceType,
+          recipient: booking.channelPreference === 'sms' ? booking.clientPhoneE164 ?? booking.clientEmail : booking.clientEmail,
+          channel: booking.channelPreference,
+          timezone: parsed.timezone,
+          start_at_utc: requestedStart.toISOString(),
+        },
+        nextAttemptAt: new Date(),
+        attemptCount: 0,
+        maxAttempts: 5,
+      },
+    });
+
+    return updated;
+  }).catch((error) => {
+    if (isSlotConflictError(error)) {
+      throw appError('That time is no longer available', 'slot_unavailable', 409);
+    }
+    throw error;
+  });
 }
