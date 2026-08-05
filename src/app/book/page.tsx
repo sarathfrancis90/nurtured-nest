@@ -38,17 +38,10 @@ function displayDate(iso: string, timezone: string) {
   return new Intl.DateTimeFormat('en-CA', { dateStyle: 'full', timeStyle: 'short', timeZone: timezone }).format(new Date(iso));
 }
 export default function BookingPage() {
-  const initialTimezone = useMemo(() => {
-    if (typeof Intl !== 'undefined' && Intl.DateTimeFormat) {
-      return Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Toronto';
-    }
-    return 'America/Toronto';
-  }, []);
-
   const [step, setStep] = useState<Step>(1);
   const [serviceType, setServiceType] = useState<ServiceType>(SERVICES[0].id);
   const [date, setDate] = useState(() => new Date().toISOString().slice(0, 10));
-  const [timezone, setTimezone] = useState(initialTimezone);
+  const [timezone, setTimezone] = useState('America/Toronto');
   const [slots, setSlots] = useState<Slot[]>([]);
   const [selectedSlot, setSelectedSlot] = useState('');
   const [loadingSlots, setLoadingSlots] = useState(false);
@@ -66,6 +59,11 @@ export default function BookingPage() {
   const idempotencyKey = useMemo(() => crypto.randomUUID(), []);
   const selectedService = SERVICES.find((service) => service.id === serviceType) ?? SERVICES[0];
   const selectedSlotDetails = slots.find((slot) => slot.start_at_utc === selectedSlot);
+
+  useEffect(() => {
+    const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (browserTimezone) setTimezone(browserTimezone);
+  }, []);
 
   useEffect(() => {
     let abort = false;
