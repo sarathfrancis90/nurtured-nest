@@ -108,13 +108,18 @@ for (const viewport of viewports) {
 
     test('Booking entry hydrates without browser errors', async ({ page }) => {
       const browserErrors: string[] = [];
+      const failedResponses: string[] = [];
       page.on('console', (message) => {
         if (message.type() === 'error') browserErrors.push(message.text());
       });
       page.on('pageerror', (error) => browserErrors.push(error.message));
+      page.on('response', (response) => {
+        if (response.status() >= 400) failedResponses.push(`${response.status()} ${response.url()}`);
+      });
       await page.goto('/book', { waitUntil: 'networkidle' });
       await expect(page.getByRole('heading', { name: /book a calm, connected conversation/i })).toBeVisible();
       expect(browserErrors).toEqual([]);
+      expect(failedResponses).toEqual([]);
     });
 
     test('Booking screen keeps spacing, contrast, and control accessibility', async ({ page }) => {
