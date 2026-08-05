@@ -39,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             >
               <Link
                 href="/"
+                prefetch={false}
                 style={{
                   textDecoration: 'none',
                   color: 'var(--on-surface)',
